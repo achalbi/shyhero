@@ -86,6 +86,10 @@ gem 'browser-timezone-rails'
 gem 'cloudinary'
 #gem 'mini_magick', '3.5.0'
 
+group :production do
+  gem 'rails_12factor'
+end
+
 group :development do
   gem 'spring'
   gem 'os'
