@@ -2,7 +2,7 @@ class Photo
     include Neo4j::ActiveNode
 
   property :pic, :type => String
-  mount_uploader :pic, PhotoUploader
+#  mount_uploader :pic, PhotoUploader
 
   
 #  has_attached_file :pic,  :url =>
