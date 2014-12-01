@@ -31,9 +31,10 @@
 //= require ../plugins/xeditable/inputs-ext/typeaheadjs/typeaheadjs
 //= require ../plugins/owl/js/owl.carousel.min
 //= require_tree ../plugins/jvectormap/.
-//= require_tree ../plugins/gmaps/.
-//= require_tree ./maps/.
 //= require_tree .
+
+//  ../plugins/gmaps/.
+//  ./maps/.
 
 // ../plugins/magnific/js/jquery.magnific-popup.min
 // purecss-dropdown

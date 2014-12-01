@@ -46,6 +46,8 @@ class User
   has_many :out, :profile_pics,  model_class: Picture,  rel_class: Profile
   #has_one :out, :default_pics,  model_class: Picture,  rel_class: Profile
   has_many :out, :visits,  model_class: User,  rel_class: Visit
+  has_many :out, :add_pic,  model_class: User,  rel_class: Add_pic
+  has_many :out, :add_status,  model_class: User,  rel_class: Add_status
 
   #has_one :out, :users_place, type: :users_place, model_class: Location
   #has_n(:friends).to(User).relationship(Friend)
@@ -69,17 +71,17 @@ class User
 
   end
 
-
-
   def self.paginate(options={})
     page = options[:page] || 1
     per_page = options[:per_page] || 8
    self.skip((per_page-1) * page).limit(per_page)
   end
 
+
  private
   def create_remember_token
       self.remember_token = SecureRandom.urlsafe_base64
   end
+  
 
 end

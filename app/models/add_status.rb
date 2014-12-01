@@ -1,12 +1,12 @@
-class Profile 
+class Add_status
 	include Neo4j::ActiveRel
-	property :visible, :type => Boolean
+	property :content, :type => String
 	property :created_at  # will automatically be set when model changes
 	property :updated_at  # will automatically be set when model changes
 
 
   from_class User
-  to_class   Picture
-  type 'profile_pics'
+  to_class   User
+  type 'add_status'
 
 end

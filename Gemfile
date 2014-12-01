@@ -55,7 +55,7 @@ gem 'jquery-turbolinks'
 gem 'puma'
 gem 'magnific-popup-rails', github: 'itsNikolay/magnific-popup-rails'
 
-gem 'redis_timeline'
+#gem 'redis_timeline'
 
 gem 'jquery-ui-rails'
 
@@ -81,6 +81,7 @@ gem 'neo4j'
 
 gem 'rails-timeago'
 gem 'browser-timezone-rails'
+gem 'google_places'
 
 #gem 'carrierwave'
 gem 'cloudinary'

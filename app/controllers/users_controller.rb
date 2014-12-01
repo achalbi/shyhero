@@ -145,6 +145,12 @@ autocomplete :location, :address, :full => true
     end
     @likes_count = @user.rels(dir: :incoming, type: "likes").count
 
+    # ip_loc = Geocoder.search(remote_ip)[0]
+
+     # @address = ip_loc.address
+     # @latitude = ip_loc.latitude
+     # @longitude = ip_loc.longitude
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
@@ -212,9 +218,11 @@ autocomplete :location, :address, :full => true
   end
 
   def autocomplete_location_address
-    gc = Geocoder.search(params[:address])
+    #gc = Geocoder.search(params[:address])
+    @client = GooglePlaces::Client.new('AIzaSyAQ-rZcE4h_upePl7jGYTmt1AKypz3qXPk')
+    gc = @client.spots_by_query(params[:address])
     result = gc.collect do |t|
-      {value: t.address}
+      {value: t.name + ' | ' + t.formatted_address }
     end
     respond_to do |format|
       format.json {render json: result}
@@ -222,13 +230,18 @@ autocomplete :location, :address, :full => true
   end
 
   def add_location
-    gc = Geocoder.search(params[:address])[0]
-      @location = Location.find_by(address: gc.address)
+  #  gc = Geocoder.search(params[:location_search])[0]
+      @client = GooglePlaces::Client.new('AIzaSyAQ-rZcE4h_upePl7jGYTmt1AKypz3qXPk')
+      gc = @client.spots_by_query(params[:location_search])[0]
+      @location = Location.find_by(place_id: gc.place_id)
       if @location.nil?
           @location = Location.new
-          @location.address = gc.address
-          @location.latitude = gc.latitude
-          @location.longitude = gc.longitude
+          @location.address = gc.formatted_address
+          @location.name = gc.name
+          @location.place_id = gc.place_id
+          @location.id_loc = gc.id
+          @location.latitude = gc.lat
+          @location.longitude = gc.lng
           @location.save!
       end
       if current_user.rels(type: :places, between: @location).blank?
@@ -321,12 +334,17 @@ autocomplete :location, :address, :full => true
   end
 
   def update_status
-    current_user.status = params[:value]
-    current_user.save!
+    @user = current_user
+    @user.status = params[:value]
+    @user.save!
+ 
+      rel = Add_status.create(from_node: @user, to_node: @user)
+      rel.content = params[:value]
+      rel.save!
 
      respond_to do |format|
       format.html
-      format.json { render json: current_user }
+      format.json { render json: @user }
     end
   end
 
@@ -374,6 +392,8 @@ autocomplete :location, :address, :full => true
     @pictures = []
     @pictures << params[:pic]
     @pics = @user.pictures
+    @v_pics = @user.visible_pictures
+    
     if @pics.nil?
       @user.pictures = @pictures
     else
@@ -382,7 +402,19 @@ autocomplete :location, :address, :full => true
         @pics << @pictures[0]
        @user.pictures =  @pics
     end
+    if @v_pics.nil?
+      @user.visible_pictures = params[:pic]
+    else
+      @user.visible_pictures = nil
+      @user.save!
+      @v_pics << params[:pic]
+      @user.visible_pictures = @v_pics
+    end
     @user.save!
+
+    rel = Add_pic.create(from_node: @user, to_node: @user)
+    rel.content = params[:pic]
+    rel.save!
 
     head :ok
 
@@ -460,5 +492,13 @@ autocomplete :location, :address, :full => true
         @testimonials = t
       end
   end
+
+def timeline
+  @results = Neo4j::Session.query.match("(me { uuid: '#{params[:id]}' })-[:likes]->(friend),(friend)-[rel]-(node)").where(" NOT  rel._classname = 'Visit'  AND NOT rel._classname = 'My_testimonial' ").order("rel.updated_at DESC").limit(80).pluck(:friend, :rel, :node)
+end
+
+def timeline_page
+  @results = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:likes]->(friend),(friend)<-[rel]-(node)").where(" NOT  rel._classname = 'Visit'  AND NOT rel._classname = 'My_testimonial' ").order("rel.updated_at DESC").skip((8) * params[:page].to_i-8).limit(8).pluck(:friend, :rel, :node)
+end
 
 end

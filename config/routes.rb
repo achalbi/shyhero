@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     end
     member do
       patch :add_location, :badges, :add_testimonial, :add_picture
-      get :search_criteria, :likes, :pics_edit, :set_default_pic, :set_visible_pic, :likes_testimonial, :delete_testimonial
+      get :search_criteria, :likes, :pics_edit, :set_default_pic, :set_visible_pic, :likes_testimonial, :delete_testimonial, :timeline
       post :update_status, :update_about_me
     end
   end

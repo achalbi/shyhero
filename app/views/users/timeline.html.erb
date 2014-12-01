@@ -1,0 +1,34 @@
+<div class="row">
+	<div class="col-md-12">
+		<!-- START Timeline -->
+		<ul class="timeline">
+			<li class="header year ellipsis">Now</li>
+			<li class="wrapper">
+				<!-- START Events -->
+				<ul class="events">
+					<% @results.each do |result| %>
+						<% case result[1] %>
+						<% when Like %>
+							<%= render partial: "timeline/likes", :locals => {:result => result} %>
+						<% when Badge %>
+							<%= render partial: "timeline/badge", :locals => {:result => result} %>
+						<% when Add_pic %>
+							<%= render partial: "timeline/add_pic", :locals => {:result => result} %>
+						<% when Place %>
+							<%= render partial: "timeline/added_to_place", :locals => {:result => result} %>
+						<% when Add_status %>
+							<%= render partial: "timeline/status", :locals => {:result => result} %>
+						<% when Like_testimonial %>
+							<%= render partial: "timeline/testimonial", :locals => {:result => result} %>
+						<% else %>
+							<p> Didn't work - <%= result[1].class %> </p>
+						<% end %>
+					<% end %>
+				</ul>
+				<!--/ END Events -->
+			</li>
+			<li class="header text-center semibold nm"><a href="javascript:void(0);">Load more</a></li>
+		</ul>
+		<!--/ END Timeline -->
+	</div>
+</div>

@@ -2,6 +2,10 @@
  <div class="list-group">
     <% user.places.each do |loc| %>
         <a href="#" class="list-group-item">
+            <% unless loc.name.nil? %>
+            <b><%= loc.name unless loc.name.nil? %> </b>
+            </br>
+            <% end %>
             <%= loc.address %>
         </a>
     <% end %>

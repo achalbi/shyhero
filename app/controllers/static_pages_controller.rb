@@ -11,6 +11,7 @@ class StaticPagesController < ApplicationController
 	      @all_badges[badge] = @user.rels(dir: :incoming, type: :badges).each.select{|r| r.badgeType == badge }.count
 	    end
 	    @my_badges = []
+
   	end
   end
 
