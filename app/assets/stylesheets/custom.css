@@ -30,15 +30,19 @@
 *.icon-blue {color: #0088AC}
 *.icon-green {color: #4BA84B} 
 *.icon-black {color: black} 
+*.icon-yellow {color: yellow} 
 
 *.icon-bg-yellow {background-color: #f0ad4e} 
 
 *.icon-font-22 {font-size: 22px;}
 
 *.icon-font-55 {font-size: 55px;}
+*.icon-font-40 {font-size: 40px;}
+*.icon-font-30 {font-size: 30px;}
 
 *.font-15 {font-size: 15px !important;}
 *.font-18 {font-size: 18px !important;}
+*.font-20 {font-size: 20px !important;}
 
 .panel > .panel-ribbon-60 {
   width: 60px !important;
@@ -81,6 +85,10 @@
 
 .images_div{
 	cursor: pointer;
+}
+
+.ml100 {
+  margin-left: 100px !important;
 }
 
 

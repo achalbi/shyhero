@@ -4,71 +4,65 @@
             <section class="content slimscroll">
                 <h5 class="heading">Main Menu</h5>
                 <!-- START Template Navigation/Menu -->
-                <ul class="topmenu topmenu-responsive" data-toggle="menu">
-                    <li >
+                <ul class="topmenu topmenu-responsive sidebar_ul" data-toggle="menu">
+                    <!-- <li id="li_home" >
                         <a href="#">
                             <span class="figure"><i class="ico-home2"></i></span>
                             <span class="text">Home</span>
                         </a>
-                    </li>
-                    <li class="active">
-                        <a href="/">
-                            <span class="figure"><i class="ico-user2"></i></span>
-                            <span class="text">Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<%=  friends_users_path %>">
-                            <span class="figure"><i class="ico-users2"></i></span>
-                            <span class="text">Facebook Friends</span>
-                        </a>
-                    </li>
-                    <li>
+                    </li> -->
+                    <li id="li_timeline">
                         <a href="<%= timeline_user_path(current_user) %>">
                             <span class="figure"><i class=" ico-menu6"></i></span>
                             <span class="text">Timeline</span>
                         </a>
                     </li>
-                    <li>
+                    <li id="li_profile">
+                        <a href="/">
+                            <span class="figure"><i class="ico-user2"></i></span>
+                            <span class="text">Profile</span>
+                        </a>
+                    </li>
+                    <li id="li_like_list">
                         <a href="<%=  like_list_users_path %>">
-                            <span class="figure"><i class=" ico-star6"></i></span>
+                            <span class="figure"><i class="ico-heart-empty"></i></span>
                             <span class="text">Like list</span>
                         </a>
                     </li>
-                    <li>
+                    <li id="li_fb_friends">
+                        <a href="<%= friends_users_path %>">
+                            <span class="figure"><i class="ico-users2"></i></span>
+                            <span class="text">Facebook Friends</span>
+                        </a>
+                    </li>
+                    <li id="li_crush_list">
                         <a href="/">
                             <span class="figure"><i class="ico-heart"></i></span>
                             <span class="text">Crush list</span>
                         </a>
                     </li>
-                    <li>
+                    <li id="li_notifications">
                         <a href="/">
                             <span class="figure"><i class="ico-bell"></i></span>
                             <span class="text">Notifications</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="/">
-                            <span class="figure"><i class="ico-user-minus"></i></span>
-                            <span class="text">Hidden people</span>
-                        </a>
-                    </li>
-                    <li>
+                    <li id="li_messages">
                         <a href="/">
                             <span class="figure"><i class="ico-envelope-alt"></i></span>
                             <span class="text">Messages</span>
                         </a>
                     </li>
-                    <li>
+                    <li id="li_hidden_people">
+                        <a href="/">
+                            <span class="figure"><i class="ico-user-minus"></i></span>
+                            <span class="text">Hidden people</span>
+                        </a>
+                    </li>
+                    <li id="li_blocked_people">
                         <a href="/">
                             <span class="figure"><i class=" ico-user-block"></i></span>
                             <span class="text">Blocked people</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/">
-                            <span class="figure"><i class=" ico-blog2"></i></span>
-                            <span class="text">Discussions / Blogs</span>
                         </a>
                     </li>
                 </ul>
@@ -77,5 +71,11 @@
                 <!--/ END Sidebar summary -->
             </section>
             <!--/ END Sidebar Container -->
+<script  type="text/javascript">
+    $(".sidebar_ul > li").click(function(){
+        $(this).parent().children("li").removeClass("active");
+        $(this).addClass("active");
+    });
+</script>
         </aside>
         <!--/ END Template Sidebar (Left) -->

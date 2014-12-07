@@ -275,7 +275,7 @@
 
                     <!-- Search form toggler  -->
                     <li>
-                        <a href="javascript:void(0);" data-toggle="dropdown" data-target="#dropdown-form">
+                        <a href="javascript:void(0);" data-toggle="modal" data-target="#search_modal">
                             <span class="meta">
                                 <span class="icon"><i class="ico-search"></i></span>
                             </span>
@@ -287,13 +287,15 @@
 
                 <!-- START navbar form -->
                 <div class="navbar-form navbar-left dropdown" id="dropdown-form">
-                    
+                    <form role="search">
+                        
                         <div class="has-icon">
                             <button class="btn btn-teal mt0 mb0 form-control-btn btn-outline" data-toggle="modal" data-target="#search_modal">Criteria</button>
                             <input type="text" class="form-control" placeholder="Search application...">
                             
                             <i class="ico-search form-control-icon"></i>
                         </div>
+                    </form>
                                         <!-- search modal -->
                 </div>
                 <!-- START navbar form -->
@@ -358,35 +360,28 @@
                         <div class="modal-content">
                             <div class="modal-header text-center">
                                 <button type="button" class="close" data-dismiss="modal">×</button>
-                                  <h3 class="semibold modal-title text-primary">Search criteria</h3>
+                                  <h3 class="semibold modal-title text-primary">Search</h3>
                                 <p class="text-muted">Set the criteria to search</p>
                             </div>
                             <div class="modal-body">
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">Gender</label>
-                                        <div class="col-sm-9">
-                                            <span class="radio custom-radio custom-radio-primary">  
-                                                <input type="radio" id="genderradio1" value="male" name="gender">  
+                                        <label class="col-sm-2 control-label font-18">Gender</label>
+                                        <div class="col-sm-10 " >
+                                            <span class=" custom-radio custom-radio-primary mr15">  
+                                                <input type="radio" id="genderradio1" value="male" name="gender" <%= current_user.gender == 'female' ? 'checked' : '' %> >  
                                                 <label for="genderradio1">&nbsp;&nbsp;Male</label>   
                                             </span>
-                                            <span class="radio custom-radio custom-radio-primary">  
-                                                <input type="radio" id="genderradio2" value="female" name="gender">  
+                                            <span class=" custom-radio custom-radio-primary">  
+                                                <input type="radio" id="genderradio2" value="female" name="gender" <%= current_user.gender == 'male' ? 'checked' : '' %>>  
                                                 <label for="genderradio2">&nbsp;&nbsp;Female</label>   
                                             </span>
                                         </div>
-                                    </div>
-                                <h4 class="semibold mt0">Gender:</h4>
-                                    <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= check_box_tag 'male' %> Male &nbsp;&nbsp;&nbsp;&nbsp;
-                      <%= check_box_tag 'female' %> Female </h5>
-                <h4>Location:</h4>
-                  <ul>
-                    <% current_user.places.each do |location| %>
-                      <li class="no-decor">
-                      <%= check_box_tag 'location_ids[]', location.address %>
-                      <%= h location.address -%>
-                      </li>
-                    <% end %>
-                  </ul>
+                                    <label class="col-sm-12 control-label font-18">Location</label>
+                                    <br>
+                                      <ul class="ml100" id="ul_places">
+                                        <%= render partial: 'layouts/checkbox_places' %>
+                                      </ul>
+                            </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary" id="search_submit">Search</button>

@@ -38,7 +38,7 @@
                                     <li>
                                         <div class="section">
                                             <h4 class="nm">
-                                              <img src="/assets/icons/like-red-lite.png" alt="" class="img-responsive center_block">
+                                              <i class="ico-heart-empty icon-red img-responsive center_block icon-font-40"></i>
                                             </h4>
                                             <h4 class="nm mt5"><%= current_user.rels(dir: :incoming, type: "likes").count %></h4>
                                         </div>
@@ -46,7 +46,7 @@
                                     <li>
                                         <div class="section">
                                             <h4 class="nm">
-                                              <img src="/assets/icons/pagequality1x64.png" alt="" class="img-responsive center_block">
+                                              <i class="ico-star icon-yellow img-responsive center_block icon-font-40"></i>
                                             </h4>
                                             <h4 class="nm mt5"><%= current_user.rels(dir: :incoming, type: "badges").count %></h4>
                                         </div>
@@ -54,7 +54,7 @@
                                     <li>
                                         <div class="section">
                                             <h4 class="nm">
-                                              <img src="/assets/icons/seocopywriting1x64.png" alt="" class="img-responsive center_block"></h4>
+                                              <i class="ico-quill2 icon-blue img-responsive center_block icon-font-40"></i></h4>
                                             <h4 class="nm mt5"><%= @testimonials.nil? ? 0 : @testimonials.count %></h4>
                                         </div>
                                     </li>
@@ -92,14 +92,12 @@
                                            <!-- option -->
                                               
                                           <div class="option">
-                                              <button class="btn demo a-color-inherit" >
-                                                <a  href="#pics_modal" role="button" data-toggle="modal" class="" id="pics_link">
+                                                <a  href="#pics_modal" role="button" data-toggle="modal" class="btn demo a-color-inherit" id="pics_link">
                                                   <i class="ico-pencil"></i>
                                                 </a> 
-                                                <a  href="#profile_pic_modal" role="button" data-toggle="modal" class="">
+                                                <a  href="#profile_pic_modal" role="button" data-toggle="modal" class="btn demo a-color-inherit">
                                                   <i class="ico-upload2"></i>
                                                 </a>              
-                                              </button>              
                                           </div>
                                           <!--/ option -->
                                       </div>
@@ -119,7 +117,7 @@
                               <div class="panel panel-teal">
                                   <!-- panel heading/header -->
                                   <div class="panel-heading">
-                                      <h3 class="panel-title">Others think me as</h3>
+                                      <h3 class="panel-title">Others think about me as</h3>
                                   </div>
                                   <!--/ panel heading/header -->
                                   
@@ -148,11 +146,9 @@
                                           <!-- option -->
                                               
                                           <div class="option">
-                                              <button class="btn demo a-color-inherit" >
-                                                <a  href="#address_modal" role="button" data-toggle="modal" class="" id="address_link">
+                                                <a  href="#address_modal" role="button" data-toggle="modal" class="btn demo a-color-inherit" id="address_link">
                                                   <i class="ico-plus-circle"></i>
                                                 </a>              
-                                              </button>              
                                           </div>
                                           <!--/ option -->
                                       </div>
@@ -271,20 +267,20 @@
           <!-- </form> -->
       <div class="form-group">
         <!-- <%= label_tag :search, "Search For Address" %> -->
-        <%= text_field_tag :location_search, @address, class: "span12 search-query form-control input-lg", type: "search", :placeholder => "Search for your workplace/school/residence... "  %>
+        <%= text_field_tag :location_search, nil, class: "span12 search-query form-control input-lg", type: "search", :placeholder => "Search for your workplace/school/residence... "  %>
       </div>
       <%= hidden_field_tag 'location_lat', @latitude  %>
       <%= hidden_field_tag 'location_lng', @longitude %>
       <%= hidden_field_tag 'place_id' %>
+      <%= hidden_field_tag 'location_name' %>
       <%= hidden_field_tag 'id_loc' %>
-      <div class="form-group">
+      <div class="form-group googlemap">
         <%= render partial: "users/googlemap" %>
       </div>
       </div>
       <div class="modal-footer">
           <div>
-          <button type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-primary btn-sm" id="address_submit">Add</button>
-            <ul class="pull-left list-inline"><li><a href=""><i class="glyphicon glyphicon-upload"></i></a></li><li><a href=""><i class="glyphicon glyphicon-camera"></i></a></li><li><a href=""><i class="glyphicon glyphicon-map-marker"></i></a></li></ul>
+          <button type="button"  class="btn btn-primary btn-sm" id="address_submit">Add</button>
       </div>  
       </div>
   </div>
@@ -361,6 +357,8 @@
 </div>
 <script>
  
+  $("#li_profile").addClass("active");
+
          $(".profile_pics").magnificPopup({
               type: "image",
               gallery: {
@@ -434,8 +432,8 @@ $('.upload_form').append($.cloudinary.unsigned_upload_tag("shyhero",
       });
 
 $("#address_submit").click(function(){
-  $(this).removeClass("btn-sm");
-  $(this).addClass("disabled");
+  $(this).closest('form').submit();
+  $(this).addClass("disabled"); 
 });
 
 
@@ -513,5 +511,15 @@ $.fn.editable.defaults.mode = 'inline';
            }
        });
 
+$( ".search-query" ).keypress(function() {
+  if ($(".search-query").val().length > 0) { $("#address_submit").show(); } else{ $("#address_submit").hide(); }
+  if (event.keyCode == 13)   {return false;} 
+});
+
+$('.search-query').keydown(function(e) {
+  if ($(".search-query").val().length > 1) { $("#address_submit").show(); } else{ $("#address_submit").hide(); }
+});
+
+$("#address_submit").hide(); 
 
 </script>

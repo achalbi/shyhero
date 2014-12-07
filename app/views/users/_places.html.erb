@@ -1,15 +1,47 @@
  <% if user.places.count > 0 %>
  <div class="list-group">
     <% user.places.each do |loc| %>
-        <a href="#" class="list-group-item">
+        <a href="#map_modal_<%= loc.place_id %>" class="list-group-item" data-toggle="modal" id="a_modal_<%= loc.place_id %>">
             <% unless loc.name.nil? %>
             <b><%= loc.name unless loc.name.nil? %> </b>
             </br>
             <% end %>
             <%= loc.address %>
         </a>
+
+	<%= form_for(current_user, url: "users/#{current_user.uuid}/map_delete", remote: true)  do %>
+	<div id="map_modal_<%= loc.place_id %>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+	  <div class="modal-dialog">
+	  <div class="modal-content">
+	      <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	       <b><%= loc.name unless loc.name.nil? %> </b>
+	      </div>
+	      <div class="modal-body">
+	      <%= hidden_field_tag 'map_place_id', loc.place_id  %>
+	      <div class="form-group googlemap">
+	      	<%=  render partial: 'users/static_map', locals: {loc: loc } %>
+	      </div>
+	      </div>
+	      <div class="modal-footer">
+	          <div>
+	          <button type="submit"  class="btn btn-danger " id="map_delete_<%= loc.place_id %>">Delete</button>
+	      </div>  
+	      </div>
+	  </div>
+	</div>
+	</div>
+	<% end %>
+ <script type="text/javascript">
+ 	$("#map_delete_<%= loc.place_id %>").click(function(){
+	  $(this).addClass("disabled"); 
+	  $(".modal").modal('hide');
+	  $("#a_modal_<%= loc.place_id %>").remove();
+	});
+ </script>
     <% end %>
  </div>
+
  <% else %>
  	No places added, please add to find people around it
  <% end %>

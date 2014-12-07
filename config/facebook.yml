@@ -14,6 +14,11 @@ production:
 #   FACEBOOK_SECRET: cb4b9371440131b3748e87afb27f5611
 
 # online - cloud9 ide
+
+# development: #likeplus
+#  FACEBOOK_APP_ID: 668039519976086
+#  FACEBOOK_SECRET: 68b4e226779720c60be2529b6cfc8b99
+
 # development:
 #   # FACEBOOK_APP_ID: 335751569924596
 #   # FACEBOOK_SECRET: 4d8c53578ea3423ebf5c0c4c7f16394e

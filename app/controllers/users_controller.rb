@@ -24,10 +24,10 @@ autocomplete :location, :address, :full => true
     
     
     @graph = Koala::Facebook::API.new(@user.fb_access_token)
-    @user.pictures =  []
-    @user.visible_pictures = []
     
     if @user.default_pic.nil?
+      @user.pictures =  [] if @user.pictures.nil?
+      @user.visible_pictures = [] if @user.visible_pictures.nil?
       @user.default_pic =  Cloudinary::Uploader.upload(@graph.get_picture(@user.uid,:type => "square", height: 400 , width: 400))["public_id"]
       default_pic = @user.default_pic
       @user.pictures << default_pic
@@ -35,8 +35,8 @@ autocomplete :location, :address, :full => true
     end
     
     @user.save!
-    @pics = @user.pictures
-    @v_pics = @user.visible_pictures
+    @pics = @user.pictures.nil? ? [] : @user.pictures
+    @v_pics = @user.visible_pictures.nil? ? [] : @user.visible_pictures
 
     
        @user.pictures = nil
@@ -231,22 +231,26 @@ autocomplete :location, :address, :full => true
 
   def add_location
   #  gc = Geocoder.search(params[:location_search])[0]
-      @client = GooglePlaces::Client.new('AIzaSyAQ-rZcE4h_upePl7jGYTmt1AKypz3qXPk')
-      gc = @client.spots_by_query(params[:location_search])[0]
-      @location = Location.find_by(place_id: gc.place_id)
+     # @client = GooglePlaces::Client.new('AIzaSyAQ-rZcE4h_upePl7jGYTmt1AKypz3qXPk')
+     # gc = @client.spots_by_query(params[:location_search])[0]
+     if params[:place_id].nil?
+       return
+     end
+     @user = User.find(params[:id])
+      @location = Location.find_by(place_id: params[:place_id])
       if @location.nil?
           @location = Location.new
-          @location.address = gc.formatted_address
-          @location.name = gc.name
-          @location.place_id = gc.place_id
-          @location.id_loc = gc.id
-          @location.latitude = gc.lat
-          @location.longitude = gc.lng
+          @location.address = params[:location_search]
+          @location.name = params[:location_name]
+          @location.place_id = params[:place_id]
+          @location.id_loc = params[:id_loc]
+          @location.latitude = params[:latitude]
+          @location.longitude = params[:longitude]
           @location.save!
       end
-      if current_user.rels(type: :places, between: @location).blank?
-        current_user.places << @location
-        current_user.save!
+      if @user.rels(type: :places, between: @location).blank?
+        @user.places << @location
+        @user.save!
       end
   end
 
@@ -261,8 +265,9 @@ autocomplete :location, :address, :full => true
   def search_criteria
   @friends = []
     location_ids = params[:location_ids]#.map(&:to_i)
+    session['gender_search'] = params[:gender]
     session['location_ids'] = location_ids
-    @friends = User.as(:u).places(:l).where(address: location_ids).limit(2).pluck('DISTINCT u')
+    @friends = User.as(:u).places(:l).where(place_id: location_ids).where('u.gender = "' + params[:gender] + '"').limit(2).pluck('DISTINCT u')
     #query = Neo4j::Session.query.match(u: :User, l: :Location)
     #query = query.where('u.id' => current_user.neo_id)  
     #query = query.where('l.neo_id' => location_ids)  
@@ -273,7 +278,8 @@ autocomplete :location, :address, :full => true
   def page_search_criteria
      @friends = []
     location_ids = session['location_ids']
-    @friends = User.as(:u).places(:l).where(address: location_ids).skip((2) * params[:page].to_i-2).limit(2).pluck('DISTINCT u')
+    gender = session['gender_search']
+    @friends = User.as(:u).places(:l).where(place_id: location_ids).where('u.gender = "' + gender + '"').skip((2) * params[:page].to_i-2).limit(2).pluck('DISTINCT u')
    # @friends = @friends - Array(current_user)
   end
 
@@ -493,12 +499,22 @@ autocomplete :location, :address, :full => true
       end
   end
 
-def timeline
-  @results = Neo4j::Session.query.match("(me { uuid: '#{params[:id]}' })-[:likes]->(friend),(friend)-[rel]-(node)").where(" NOT  rel._classname = 'Visit'  AND NOT rel._classname = 'My_testimonial' ").order("rel.updated_at DESC").limit(80).pluck(:friend, :rel, :node)
-end
+  def timeline
+    @results = Neo4j::Session.query.match("(me { uuid: '#{params[:id]}' })-[:likes]->(friend),(friend)-[rel]-(node)").where("  NOT  rel._classname = 'Visit'  AND NOT rel._classname = 'My_testimonial' ").order("rel.updated_at DESC").limit(80).pluck(:friend, :rel, :node)
+  end
 
-def timeline_page
-  @results = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:likes]->(friend),(friend)<-[rel]-(node)").where(" NOT  rel._classname = 'Visit'  AND NOT rel._classname = 'My_testimonial' ").order("rel.updated_at DESC").skip((8) * params[:page].to_i-8).limit(8).pluck(:friend, :rel, :node)
-end
+  def timeline_page
+    @results = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:likes]->(friend),(friend)<-[rel]-(node)").where(" NOT  rel._classname = 'Visit'  AND NOT rel._classname = 'My_testimonial' ").order("rel.updated_at DESC").skip((8) * params[:page].to_i-8).limit(8).pluck(:friend, :rel, :node)
+  end
 
+  def map_delete
+    @user = User.find(params[:id])
+    @location = Location.find_by(place_id: params[:map_place_id])
+    if @location.rels(type: :places).count > 1
+      @user.rels(type: :places, between: @location)[0].destroy
+    else
+      @location.destroy
+    end
+
+  end
 end
