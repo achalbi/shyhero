@@ -3,6 +3,13 @@
  	<ul class="list-group mb0">
  	<% @all_badges.each do |k, v| %>
        	<li class="list-group-item">
+						<% case "#{k}" %>
+						<% when "hot" %>
+						<% when "cool" %>
+						<% when "smart" %>
+						<% when "stingy" %>
+						<% else %>
+						<% end %>
  		<img src='<%= cloudinary_url( 'crushlike_uvxp3c', :width => 25, :height => 25, :crop => :fit) %>'>
 		   <%= "#{k}"  %>
 

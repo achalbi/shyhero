@@ -8,8 +8,8 @@ autocomplete :location, :address, :full => true
 
     
     if  @user.nil?
-    #  @user = User.create_with_omniauth(oauth)
-      @user = User.find_by(email: oauth['extra']['raw_info']['email'])
+      @user = User.create_with_omniauth(oauth)
+    # @user = User.find_by(email: oauth['extra']['raw_info']['email'])
     end
     
     unless  @user.username.present? 
@@ -44,9 +44,9 @@ autocomplete :location, :address, :full => true
        @user.save!
     unless profile_pics.empty?
       profile_pics.each do |pic_id|
-        picture =  Cloudinary::Uploader.upload(@graph.get_object(pic_id)["source"])["public_id"]
-        @pics << picture
-        @v_pics << picture
+       # picture =  Cloudinary::Uploader.upload(@graph.get_object(pic_id)["source"])["public_id"]
+       # @pics << picture
+       # @v_pics << picture
       end
     end
     @user.pictures =  @pics

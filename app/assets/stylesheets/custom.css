@@ -31,6 +31,7 @@
 *.icon-green {color: #4BA84B} 
 *.icon-black {color: black} 
 *.icon-yellow {color: yellow} 
+*.icon-gold {color: gold}
 
 *.icon-bg-yellow {background-color: #f0ad4e} 
 
@@ -40,7 +41,10 @@
 *.icon-font-40 {font-size: 40px;}
 *.icon-font-30 {font-size: 30px;}
 
+*.font-13 {font-size: 13px !important;}
+*.font-14 {font-size: 14px !important;}
 *.font-15 {font-size: 15px !important;}
+*.font-16 {font-size: 16px !important;}
 *.font-18 {font-size: 18px !important;}
 *.font-20 {font-size: 20px !important;}
 

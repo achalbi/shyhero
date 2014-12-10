@@ -1,4 +1,4 @@
-class Badge 
+class Badge1 
 	include Neo4j::ActiveRel
 	property :badgeType, :type => String
 	property :pic, :type => String

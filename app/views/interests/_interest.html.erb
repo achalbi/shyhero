@@ -1,0 +1,64 @@
+<% @interests.each do |i|  %>
+	<address>
+		<h4 class="semibold">
+						<% case "#{i.interestType}" %>
+						<% when "Art & Craft" %>
+							<i class="ico-palette"></i>
+						<% when "Blogging" %>
+							<i class="ico-blog2"></i>
+						<% when "Board games" %>
+							<i class="ico-grid"></i>
+						<% when "Cooking" %>
+							<i class="ico-cup"></i>
+						<% when "Driving / Riding" %>
+							<i class="ico-meter2"></i>
+						<% when "Exploring" %>
+							<i class="ico-steps"></i>
+						<% when "Fitness" %>
+							<i class="ico-bike"></i>
+						<% when "Foodie" %>
+							<i class="ico-food"></i>
+						<% when "Gardening" %>
+							<i class="ico-tree"></i>
+						<% when "Gym" %>
+							<i class="ico-dumbbell"></i>
+						<% when "Martial arts" %>
+							<i class="ico-users5"></i>
+						<% when "Mechanic" %>
+							<i class="ico-tools"></i>
+						<% when "Movies" %>
+							<i class="ico-movie2"></i>
+						<% when "Music" %>
+							<i class="ico-music3"></i>
+						<% when "photography" %>
+							<i class="ico-camera3"></i>
+						<% when "Playing instument" %>
+							<i class="ico-piano"></i>
+						<% when "Puzzle solving" %>
+							<i class="ico-puzzle3"></i>
+						<% when "Books" %>
+							<i class="ico-books"></i>
+						<% when "Shopaholic" %>
+							<i class="ico-cart2"></i>
+						<% when "Sports" %>
+							<i class="ico-basketball"></i>
+						<% when "Singing" %>
+							<i class="ico-mic"></i>
+						<% when "Video games" %>
+							<i class="ico-gamepad4"></i>
+						<% when "Yoga" %>
+							<i class="ico-accessibility"></i>
+						<% else %>
+							<i class="ico-file2"></i>
+						<% end %>
+		<%= i.interestType %>  <span class="text-default font-15"> <%= i.interestSubType %></span>
+			<a href='/interests/<%= i.uuid %>' data-method="delete" data-remote='true' class="pull-right">
+				<i class="ico-remove icon-silver  font-13"></i>
+			</a>
+		</h4>
+		<% unless i.about.blank? %>
+			<span class="ml5 text-default"><%= i.about %></span>
+		<% end %>	
+	</address>
+	<hr>
+<% end %>

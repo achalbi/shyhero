@@ -46,7 +46,7 @@
                                     <li>
                                         <div class="section">
                                             <h4 class="nm">
-                                              <i class="ico-star icon-yellow img-responsive center_block icon-font-40"></i>
+                                              <i class="ico-medal2 icon-gold img-responsive center_block icon-font-40"></i>
                                             </h4>
                                             <h4 class="nm mt5"><%= current_user.rels(dir: :incoming, type: "badges").count %></h4>
                                         </div>
@@ -83,7 +83,7 @@
                         
                         
 
-                              <div class="panel panel-teal overflow-hidden">
+                              <div class="panel panel-default overflow-hidden">
                                                                   <!-- panel heading/header -->
                                   <div class="panel-heading">
                                       <h3 class="panel-title">My pictures</h3>
@@ -114,7 +114,7 @@
 
                             <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
                               <!-- START panel -->
-                              <div class="panel panel-teal">
+                              <div class="panel panel-default">
                                   <!-- panel heading/header -->
                                   <div class="panel-heading">
                                       <h3 class="panel-title"> <i class="ico-quill2"></i> Others think about me as</h3>
@@ -137,7 +137,7 @@
                               <!--/ END panel -->
 
                               <!-- START panel -->
-                              <div class="panel panel-teal">
+                              <div class="panel panel-default">
                                   <!-- panel heading/header -->
                                   <div class="panel-heading">
                                       <h3 class="panel-title"><i class="ico-map-marker"></i> Places</h3>
@@ -171,11 +171,61 @@
                               <!--/ END panel -->
 
                               <!-- START panel -->
-                              <div class="panel panel-teal">
+                              <div class="panel panel-default">
                                   <!-- panel heading/header -->
                                   <div class="panel-heading">
-                                      <h3 class="panel-title"><i class="ico-star"></i> Badges</h3>
-                                      
+                                      <h3 class="panel-title"><i class="ico-star"></i> Interests</h3>
+                                      <!-- panel toolbar -->
+                                      <div class="panel-toolbar text-right">
+                                          <!-- option -->
+                                              
+                                          <div class="option">
+                                                <a  href="#interest_modal" role="button" data-toggle="modal" class="btn demo a-color-inherit" id="address_link">
+                                                  <i class="ico-plus-circle"></i>
+                                                </a>              
+                                          </div>
+                                          <!--/ option -->
+                                      </div>
+                                      <!--/ panel toolbar -->
+                                  </div>
+                                  <!--/ panel heading/header -->
+                                  
+                                  <!-- panel body with collapse capable -->
+                                  <div class="panel-collapse pull out">
+                                      <div class="panel-body" id="interests_block">
+                                        <% if @interests.count > 0 %>
+                                          <%= render partial: 'interests/interest' %>
+                                        <% else %>
+                                          <h5>No interests added</h5>
+                                        <% end %>
+                                      </div>
+                                  </div>
+                                  <!--/ panel body with collapse capabale -->
+
+                                  <!-- Loading indicator -->
+                                  <div class="indicator"><span class="spinner"></span></div>
+                                  <!--/ Loading indicator -->
+                              </div>
+                              <!--/ END panel -->
+
+
+                              <!-- START panel -->
+                              <div class="panel panel-default">
+                                  <!-- panel heading/header -->
+                                  <div class="panel-heading">
+                                      <h3 class="panel-title"><i class="ico-medal2"></i> Looks Badges</h3>
+                                      <!-- panel toolbar -->
+                                      <div class="panel-toolbar text-right">
+                                          <!-- option -->
+                                              
+                                          <div class="option">
+                                                <a  href="#interest_modal" role="button" data-toggle="modal" class="btn demo a-color-inherit" id="interest_link">
+                                                  <i class="ico-plus-circle"></i>
+                                                </a>              
+                                          </div>
+                                          <!--/ option -->
+                                      </div>
+                                      <!--/ panel toolbar -->
                                   </div>
                                   <!--/ panel heading/header -->
                                   
@@ -282,6 +332,77 @@
           <div>
           <button type="button"  class="btn btn-primary btn-sm" id="address_submit">Add</button>
       </div>  
+      </div>
+  </div>
+</div>
+</div>
+<% end %>
+
+
+
+<!--Interest modal-->
+<%= form_for(Interest.new , remote: true)  do |f| %>
+<div id="interest_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="semibold mt0 mb0">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      Add Interest</h5>
+      </div>
+      <div class="modal-body">
+          <!-- <form class="form center-block"> -->
+          <%= hidden_field_tag "user_id", "#{@user.uuid}"  %>
+          <div class="form-group">
+            <div class="panel">
+              <div class="panel-body">
+                  <div class="btn-tag">
+                    <% ["Art & Craft","Blogging","Board games","Cooking","Driving / Riding","Exploring","Fitness","Foodie","Gardening","Gym","Martial arts","Mechanic","Movies","Music","Photography","Playing instument","Puzzle solving","Books","Shopaholic","Sports","Singing","Video games","Yoga","Other"].each do |k| %>
+                            <a href="javascript:void(0);" class="btn btn btn-teal btn-outline mb5 btn-sm interest-btn"><%= "#{k}"  %></a>
+                             
+                     <% end %>
+                    </div>
+                  <div class="input-group">
+                    <label class="col-sm-3 control-label mt10">Type</label>
+                    <div class="col-sm-9">
+                      <%= f.text_field 'interestType', class: "form-control mt10", readonly: true %>
+                    </div>
+                    <label class="col-sm-3 control-label mt10">More specific</label>
+                    <div class="col-sm-9">
+                      <%= f.text_field 'interestSubType' , class: "form-control mt10"%>
+                      <span class="help-block">Eg. if Type selected is 'Sports', More specific description can be 'Football' </span>
+                    </div>
+                    <!-- <label class="col-sm-3 control-label mt10">Level</label>
+                    <div class="col-sm-9 mt10" >
+                      <span class=" custom-radio custom-radio-teal mr15">  
+                        <input type="radio" id="rateradio1" value="1" name="rate" checked />  
+                        <label for="rateradio1">&nbsp;&nbsp;Beginner</label>   
+                      </span>
+                      <span class=" custom-radio custom-radio-teal mr15">  
+                        <input type="radio" id="rateradio2" value="2" name="rate"  />  
+                        <label for="rateradio2">&nbsp;&nbsp;Intermediate</label>   
+                      </span>
+                      <span class=" custom-radio custom-radio-teal">  
+                        <input type="radio" id="rateradio3" value="3" name="rate"  />  
+                        <label for="rateradio3">&nbsp;&nbsp;Professional</label>   
+                      </span>
+                    </div> -->
+                    <label class="col-sm-12 control-label">About</label>
+                    <div class="col-sm-12">
+                      <%= f.text_area 'about' , class: "form-control mt10" %>
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- </form> -->
+      </div>
+      <div class="modal-footer">
+          <div id="interest_submit_div" class="dis-none-imp" >
+          <button type="submit" class="btn btn-primary ladda-button mb5" data-style="expand-right" id="interest_submit_btn"><span class="ladda-label">Submit</span><span class="ladda-spinner"></span></button>
+          
+          </div>  
       </div>
   </div>
 </div>
@@ -523,4 +644,15 @@ $('.search-query').keydown(function(e) {
 
 $("#address_submit").hide(); 
 
+$(".interest-btn").click(function(){
+  $(this).parent().children('a').removeClass("btn-outline");
+  $(this).parent().children('a').addClass("btn-outline");
+  $(this).removeClass("btn-outline");
+  $("#interest_interestType").val($(this).text());
+  $("#interest_submit_div").removeClass('dis-none-imp');
+});
+
+$("#interest_submit_btn").click(function(e){
+  $("#interest_submit_btn").addClass("disabled");
+})
 </script>

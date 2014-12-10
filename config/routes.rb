@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   # root 'welcome#index'
   root to: 'static_pages#home'
 
+  resources :interests, only: [:create, :destroy]
+
   resources :users do
     collection do
       get :friends, :page_friends, :autocomplete_location_address, :page_search_criteria, :like_list, :page_like_list

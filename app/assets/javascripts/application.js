@@ -30,11 +30,18 @@
 //= require ../plugins/xeditable/inputs-ext/typeaheadjs/lib/typeahead
 //= require ../plugins/xeditable/inputs-ext/typeaheadjs/typeaheadjs
 //= require ../plugins/owl/js/owl.carousel.min
+//= require ../plugins/selectize/js/selectize.min
+//= require ../plugins/switchery/js/switchery.min
+//= require ../plugins/prettify/js/prettify
+//= require ../plugins/prettify/js/prettify
 //= require_tree ../plugins/jvectormap/.
 //= require_tree .
 
 //  ../plugins/gmaps/.
 //  ./maps/.
 
+// require ../plugins/flot/jquery.flot.min
+// require_tree ../plugins/flot/.
 // ../plugins/magnific/js/jquery.magnific-popup.min
+// ../plugins/starrating/js/star-rating.min
 // purecss-dropdown
