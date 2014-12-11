@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   # root 'welcome#index'
   root to: 'static_pages#home'
 
-  resources :interests, only: [:create, :destroy]
+  resources :interests, only: [:create, :destroy, :update]
 
   resources :users do
     collection do

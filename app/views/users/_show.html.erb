@@ -26,7 +26,7 @@
                                 
                                 <blockquote class="mt5 text-center m0-p10">
                                     <p class="font-15"   >
-                                      <a href="#" id="xe_status" data-type="textarea" data-pk="1" class="icon-black" ><%= current_user.status %></a>
+                                      <a href="#" id="xe_status" data-type="textarea" data-pk="1" class="text-default" ><%= current_user.status %></a>
                                     </p>
                                 </blockquote>
                             </div>
@@ -70,7 +70,7 @@
                                       </div>
                                       <div class="panel-body pt0  hidden-md hidden-lg">
                                           <p class="semibold mb5 icon-black">
-                                            <a href="#" class="xe_about_me icon-black" data-type="textarea" data-pk="1" ><%= current_user.about_me %></a>
+                                            <a href="#" class="xe_about_me text-default" data-type="textarea" data-pk="1" ><%= current_user.about_me %></a>
                                           </p>
                                           
                                       </div>
@@ -117,7 +117,7 @@
                               <div class="panel panel-default">
                                   <!-- panel heading/header -->
                                   <div class="panel-heading">
-                                      <h3 class="panel-title"> <i class="ico-quill2"></i> Others think about me as</h3>
+                                      <h3 class="panel-title"> <i class="ico-quill2"></i> Testimonial</h3>
                                   </div>
                                   <!--/ panel heading/header -->
                                   
@@ -192,8 +192,8 @@
                                   
                                   <!-- panel body with collapse capable -->
                                   <div class="panel-collapse pull out">
-                                      <div class="panel-body" id="interests_block">
-                                        <% if @interests.count > 0 %>
+                                      <div class="panel-body pb0" id="interests_block">
+                                        <% if @interests_count > 0 %>
                                           <%= render partial: 'interests/interest' %>
                                         <% else %>
                                           <h5>No interests added</h5>
@@ -252,12 +252,12 @@
                             <!-- START Bio -->
                             <div class="panel-toolbar-wrapper hidden-sm hidden-xs">
                                 <div class="panel-toolbar">
-                                    <h5 class="semibold nm text-info"><i class="ico-info2 mr5"></i>About me</h5>
+                                    <h5 class="semibold nm icon-black-lite"><i class="ico-info2 mr5"></i>About me</h5>
                                 </div>
                             </div>
                             <div class="panel-body pt0 pl0 pr0 hidden-sm hidden-xs">
-                                <p class="semibold mb5 icon-black">
-                                  <a href="#" data-type="textarea" data-pk="1" class="icon-black xe_about_me"><%= current_user.about_me %></a>
+                                <p class="semibold mb5 ">
+                                  <a href="#" data-type="textarea" data-pk="1" class="text-default xe_about_me"><%= current_user.about_me %></a>
                                 </p>
                                 
                             </div>
@@ -268,7 +268,7 @@
                             <!-- START Friend lists -->
                             <div class="panel-toolbar-wrapper">
                                 <div class="panel-toolbar">
-                                    <h5 class="semibold nm text-info"><i class="ico-users3 mr5"></i>Recent visitors</h5>
+                                    <h5 class="semibold nm icon-black-lite"><i class="ico-users3 mr5"></i>Recent visitors</h5>
                                 </div>
                             </div>
                             <div class="panel-body pt0">
@@ -281,7 +281,7 @@
                                                   <img src='<%= cloudinary_url( rel.from_node.default_pic, :width => 50, :height => 50, :crop => :fill, :gravity => :faces) %>' class="img-circle" alt="">
                                               </span>
                                               <span class="media-body">
-                                                  <span class="media-heading"><%= rel.from_node.name %></span>
+                                                  <span class="media-heading icon-grey"><%= rel.from_node.name %></span>
                                                   <span class="media-meta"><%= timeago_tag rel.updated_at, :nojs => true, :limit => 10.days.ago %></span>
                                               </span>
                                           </a>
@@ -365,7 +365,7 @@
                   <div class="input-group">
                     <label class="col-sm-3 control-label mt10">Type</label>
                     <div class="col-sm-9">
-                      <%= f.text_field 'interestType', class: "form-control mt10", readonly: true %>
+                      <%= f.text_field 'interestType', class: "form-control mt10", readonly: true, id: "new_interestType" %>
                     </div>
                     <label class="col-sm-3 control-label mt10">More specific</label>
                     <div class="col-sm-9">
@@ -648,7 +648,7 @@ $(".interest-btn").click(function(){
   $(this).parent().children('a').removeClass("btn-outline");
   $(this).parent().children('a').addClass("btn-outline");
   $(this).removeClass("btn-outline");
-  $("#interest_interestType").val($(this).text());
+  $("#new_interestType").val($(this).text());
   $("#interest_submit_div").removeClass('dis-none-imp');
 });
 

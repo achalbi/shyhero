@@ -111,12 +111,13 @@ autocomplete :location, :address, :full => true
     end
     #@b = current_user.badges(:u, :r).where( uuid: @user.uuid ).pluck(:r)
     #@badges = @b.map {|b| b.badgeType}.uniq
+    @my_badges = []
+=begin
     @uniq_badges =  @user.rels(dir: :incoming, type: :badges).each.map {|r| r.badgeType}.uniq
     @all_badges = {}
     @uniq_badges.each do |badge|
       @all_badges[badge] = @user.rels(dir: :incoming, type: :badges).each.select{|r| r.badgeType == badge }.count
     end
-    @my_badges = []
     @badges_count = @user.rels(dir: :incoming, type: "badges").count
     if current_user.uuid != @user.uuid
         current_user.rels(dir: :outgoing, type: :badges, between: @user).each do |r|
@@ -124,6 +125,8 @@ autocomplete :location, :address, :full => true
         @my_badges << r[:badgeType]
       end
     end
+=end
+
     @pictures = @user.pictures
     @testimonials = @user.testimonials
 

@@ -8,6 +8,7 @@ class StaticPagesController < ApplicationController
       @latitude = nil #'12.9715987'
       @longitude = nil #'77.5945627'
       @interests = @user.userInterests
+      @interests_count = @interests.count
   	end
   end
 

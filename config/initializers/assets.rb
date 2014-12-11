@@ -14,7 +14,6 @@ Rails.application.config.assets.version = '1.0'
         ]
       end)
 
-Rails.application.config.assets.paths << "#{Rails.root}/app/assets/fonts"  
 =begin
     initializer 'setup_asset_pipeline', :group => :all  do |app|
       # We don't want the default of everything that isn't js or css, because it pulls too many things in
