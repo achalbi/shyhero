@@ -33,6 +33,8 @@
 *.icon-yellow {color: yellow} 
 *.icon-gold {color: gold}
 *.icon-black-lite {color: #444}
+*.icon-ubuntu {color: #f17a49}
+
 
 *.icon-bg-yellow {background-color: #f0ad4e} 
 
@@ -43,6 +45,8 @@
 *.icon-font-30 {font-size: 30px;}
 
 *.font-10 {font-size: 10px !important;}
+*.font-11 {font-size: 11px !important;}
+*.font-12 {font-size: 12px !important;}
 *.font-13 {font-size: 13px !important;}
 *.font-14 {font-size: 14px !important;}
 *.font-15 {font-size: 15px !important;}
@@ -160,7 +164,17 @@
 }
 
 .sidebar .topmenu li.active{
-  background-color: #ecf0f1!important;
+ /* background-color: #ecf0f1!important; 
+  background-color: tomato!important;
+  background-color: #dd172f!important;
+ */
+  background-color: #f17a49!important;
+}
+
+.sidebar .topmenu li.active a > .figure > [class^="ico-"],
+.sidebar .topmenu li.active a > .figure > [class*=" ico-"] {
+  border-color: white!important;
+  color: white!important;
 }
 
 .sidebar .topmenu li:after{
@@ -168,7 +182,8 @@
 }
 
 .sidebar .topmenu li.active a {
-  color: #444!important; 
+ /* color: #444!important; */
+  color: white!important; 
 }
 
 .sidebar .topmenu li a {
@@ -210,4 +225,25 @@ padding-right: 15px!important;
 
 .scrollrail{
   width: 0px!important;
+}
+
+/*
+.logo-figure {
+   background-image: url("/assets/logo/logo-figure-inverse-1.png")!important;
+}
+.logo-text {
+  background-image: url("/assets/logo/logo-text-inverse-1.png")!important;
+}
+
+*/
+#header.navbar .navbar-header{
+  /*
+  background-color: #dd172f!important;
+  background-color: #A94442!important;
+  */
+  background-color: #f17a49!important;
+}
+
+.navbar-main > a{
+  background-color: #f17a49!important;
 }

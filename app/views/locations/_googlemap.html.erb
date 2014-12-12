@@ -19,8 +19,8 @@
 	// I'm Centering the map in Bangkok
 	// '13.731547730050778'
 	// '100.56798934936523'
-	var mylat = document.getElementById("location_lat").value;
-	var mylng = document.getElementById("location_lng").value;
+	var mylat = document.getElementById("my_location_latitude").value;
+	var mylng = document.getElementById("my_location_longitude").value;
   if (jQuery.isEmptyObject(mylat)) {
  //    mylat = '12.9667';
  //    mylng = '77.5667';
@@ -66,7 +66,7 @@
   var infowindow = new google.maps.InfoWindow();
   
   // Address Autocomplete
-  var input = document.getElementById('location_search');
+  var input = document.getElementById('my_location_address');
   var autocomplete = new google.maps.places.Autocomplete(input);
   autocomplete.bindTo('bounds', map);
   
@@ -74,8 +74,8 @@
 	google.maps.event.addListener(marker, "dragend", function() {
 		var point = marker.getPosition();
 		map.panTo(point);
-		document.getElementById("location_lat").value = point.lat();
-		document.getElementById("location_lng").value = point.lng();
+		document.getElementById("my_location_latitude").value = point.lat();
+		document.getElementById("my_location_longitude").value = point.lng();
 		infowindow.close();
     marker.setIcon(defaultImage);
   });
@@ -88,8 +88,8 @@
     marker.setPosition(place.geometry.location);
     map.panTo(place.geometry.location);
     map.setZoom(16);
-		document.getElementById("location_lat").value = place.geometry.location.lat();
-		document.getElementById("location_lng").value = place.geometry.location.lng();
+		document.getElementById("my_location_latitude").value = place.geometry.location.lat();
+		document.getElementById("my_location_longitude").value = place.geometry.location.lng();
 		
 		// Sets the proper image on the marker. ie. school/hospital marker
 		var image = new google.maps.MarkerImage(
@@ -173,12 +173,13 @@
     */
     if (location_name) {
       document.getElementById("location_name").value = location_name;
+      document.getElementById("my_location_name").value = location_name;
     }
     if (place_id) {
-      document.getElementById("place_id").value = place_id;
+      document.getElementById("my_location_place_id").value = place_id;
     }
     if (id_loc) {
-      document.getElementById("id_loc").value = id_loc;
+      document.getElementById("my_location_id_loc").value = id_loc;
     }
     photos = place.photos;
     /*$('#place_images').empty();

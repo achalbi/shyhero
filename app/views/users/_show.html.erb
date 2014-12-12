@@ -140,7 +140,7 @@
                               <div class="panel panel-default">
                                   <!-- panel heading/header -->
                                   <div class="panel-heading">
-                                      <h3 class="panel-title"><i class="ico-map-marker"></i> Places</h3>
+                                      <h3 class="panel-title"><i class="ico-map-marker"></i> Location </h3>
                                       <!-- panel toolbar -->
                                       <div class="panel-toolbar text-right">
                                           <!-- option -->
@@ -159,7 +159,7 @@
                                   <!-- panel body with collapse capable -->
                                   <div class="panel-collapse pull out">
                                       <div class="panel-body" id="places_block">
-                                          <%= render partial: "users/places", :locals => {:user => current_user} %>
+                                          <%= render partial: "locations/places", :locals => {:user => current_user} %>
                                       </div>
                                   </div>
                                   <!--/ panel body with collapse capabale -->
@@ -301,31 +301,61 @@
           <!--/row-->
 
 <!--post modal-->
-<%= form_for(current_user, url: "users/#{current_user.uuid}/add_location", remote: true)  do %>
+<%= form_for(MyLocation.new, remote: true)  do |f| %>
 <div id="address_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
   <div class="modal-content">
       <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      Add places to find people around it
+      <b>Add Location</b>
       </div>
-      <div class="modal-body">
-          <!-- <form class="form center-block"> -->
-            <!-- <div class="form-group">
-            <%= text_area_tag :address, nil, :placeholder => "Search for your workplace/school/residence... ", :size => 75, class: 'form-control input-lg autocomplete', 'data-autocomplete' => autocomplete_location_address_users_path , 'autofocus' => '', 'data-autocomplete-label'=>"Sorry, nothing found.", 'data-auto-focus'=>'true' %>
-            </div> -->
-          <!-- </form> -->
-      <div class="form-group">
+      <div class="modal-body pb0">
+      <div class="form-group mb0">
+          <div class="input-group">
+                  <div class="col-sm-12">
+                    <label class="col-sm-2 control-label mt5">Type</label>
+                    <div class="col-sm-4">
+                      <%= f.select :place_type, options_for_select([ "Work", "Education", "Home", "Other" ], "Work") %>
+                    </div>
+                    <label class="col-sm-2 control-label mt5 pl0 pr0" title="Currently working / Studying / Residing ">Current place</label>
+                    <div class="col-sm-4 mt5" >
+                      <span class=" custom-radio custom-radio-warning mr15">
+                          <%= f.radio_button :current_place, true, :checked => true, id: "current_place_yes" %> 
+                          <label for="current_place_yes">&nbsp;&nbsp;Yes</label>  
+                      </span>
+                      <span class=" custom-radio custom-radio-warning mr15">  
+                          <%= f.radio_button :current_place, false , id: "current_place_no"%>
+                          <label for="current_place_no">&nbsp;&nbsp;No</label>  
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <label class="col-sm-2 control-label mt15">Details</label>
+                    <div class="col-sm-10">
+                      <%= f.text_field :details , class: "form-control mt10" %>
+                      <span class="help-block mb0">Working as / Studying at / other details </span>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 mb10">
+                    <label class="col-sm-2 control-label mt15">Name</label>
+                    <div class="col-sm-10">
+                      <%= f.text_field :name , class: "form-control mt10" %>
+                    </div>
+                  </div>
+            </div>
+        </div>
+      <div class="form-group ">
         <!-- <%= label_tag :search, "Search For Address" %> -->
-        <%= text_field_tag :location_search, nil, class: "span12 search-query form-control input-lg", type: "search", :placeholder => "Search for your workplace/school/residence... "  %>
+        <%= f.text_field :address, class: "span12 search-query form-control input-lg", type: "search", :placeholder => "Search for the location... "  %>
       </div>
-      <%= hidden_field_tag 'location_lat', @latitude  %>
-      <%= hidden_field_tag 'location_lng', @longitude %>
-      <%= hidden_field_tag 'place_id' %>
       <%= hidden_field_tag 'location_name' %>
-      <%= hidden_field_tag 'id_loc' %>
-      <div class="form-group googlemap">
-        <%= render partial: "users/googlemap" %>
+      <%= f.hidden_field 'latitude'  %>
+      <%= f.hidden_field 'longitude' %>
+      <%= f.hidden_field 'place_id' %>
+      <%= f.hidden_field 'id_loc' %>
+      <%= hidden_field_tag "user_id", "#{@user.uuid}"  %>
+      <div class="form-group googlemap mb0">
+        <%= render partial: "locations/googlemap" %>
       </div>
       </div>
       <div class="modal-footer">
@@ -639,6 +669,10 @@ $( ".search-query" ).keypress(function() {
 });
 
 $('.search-query').keydown(function(e) {
+  if ($(".search-query").val().length > 1) { $("#address_submit").show(); } else{ $("#address_submit").hide(); }
+});
+
+$('.search-query').blur(function(e) {
   if ($(".search-query").val().length > 1) { $("#address_submit").show(); } else{ $("#address_submit").hide(); }
 });
 

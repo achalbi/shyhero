@@ -127,6 +127,11 @@
 			}
 		);
 
+	$(".interest_edit_submit_btn").click(function(){
+			  $(".modal").modal('hide');
+			  $("body").removeClass('modal-open');
+			});
+
 	$('.interest-footer2').hide();
 
 	$(".interest-delete").click(function(e){
@@ -135,6 +140,8 @@
 		$(this).parent().next().show('slow');
 	});
 	$(".interest-delete-yes").click(function(){
+		$(".modal").modal('hide');
+		$("body").removeClass('modal-open');
 		$(this).parent().hide('slow');
 		$(this).parent().prev().show('slow');
 	});

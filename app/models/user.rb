@@ -37,7 +37,7 @@ class User
   has_many :both, :friends,  model_class: User,  rel_class: Friend
   has_many :both, :friend_girls,  model_class: User,  rel_class: Friend_girl
   has_many :both, :friend_boys,  model_class: User,  rel_class: Friend_boy
-  has_many :both, :places,  model_class: Location,  rel_class: Place
+  has_many :out, :places,  model_class: MyLocation,  rel_class: Place
   has_many :out, :likes, model_class: User,  rel_class: Like
   #has_many :both, :badges, model_class: User,  rel_class: Badge
   has_many :out, :write_testimonials, model_class: Testimonial,  rel_class: Write_testimonial
