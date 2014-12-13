@@ -4,7 +4,7 @@ class Place
 	property :updated_at  # will automatically be set when model changes
 
   from_class User
-  to_class   Location
+  to_class   MyLocation
   type 'places'
 
 end

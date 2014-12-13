@@ -1,42 +1,41 @@
-<% @locations = user.places %>	
- <% if @locations.count > 0 %>
+<% @location_rels = user.places.each_rel{|r| } %>	
+ <% if @location_rels.count > 0 %>
  <div >
-	<% @work_loc = [] %>	
-	<% @edu_loc = [] %>	
-	<% @home_loc = [] %>	
-	<% @other_loc = [] %>	
-  <% @locations.each do |loc| %>
-    <% rel = loc.rels(dir: :incoming, type: "places")[0] %>
+	<% @work_rel = [] %>	
+	<% @edu_rel = [] %>	
+	<% @home_rel = [] %>	
+	<% @other_rel = [] %>	
+  <% @location_rels.each do |rel| %>
       <% case "#{rel.place_type}" %>
 		<% when "Work" %>	
-			<% @work_loc << loc %>	
+			<% @work_rel << rel %>	
 		<% when "Education" %>
-			<% @edu_loc << loc %>	
+			<% @edu_rel << rel %>	
 		<% when "Home" %>
-			<% @home_loc << loc %>	
+			<% @home_rel << rel %>	
 		<% else %>
-			<% @other_loc << loc %>	
+			<% @other_rel << rel %>	
 		<% end %>	
 
   <% end %>		   
 
-  	<% if @work_loc.count > 0 %>
+  	<% if @work_rel.count > 0 %>
 		<h4 class="semibold"><i class="ico-office"></i> Work</h4>
 	<% end %>
 	<div class="ml15">
-    <% @work_loc.each do |loc| %>
+    <% @work_rel.each do |rel| %>
+    <% loc = rel.end_node %>
 	<div class="location_div">
     			<hr class="mt15 mb10">
-		        <a href="#map_modal_<%= loc.place_id %>" class="pull-right" data-toggle="modal" id="a_modal_<%= loc.place_id %>"><i class="ico-pencil icon-silver font-10"></i></a>
-		        <% rel = current_user.rels(type: :places, between: loc)[0] %>
+		        <a href="#map_modal_<%= rel.created_at.to_i %>" class="pull-right" data-toggle="modal" id="a_modal_<%= loc.place_id %>"><i class="ico-pencil icon-silver font-10"></i></a>
 		            <% unless loc.name.nil? %>
 		            <h4 class="semibold nm font-16"><%= loc.name unless loc.name.nil? %><span class="text-default pull-right font-13 mr10"><%= rel.current_place? ? 'currently ' : '' %></span></h4>
 		            <% end %>
 			        <div class="font-15" ><%= rel.details %></div> 
 		            <span class="text-default"> <%= loc.address %></span>
 	</div>		
-	<%= form_for(loc, remote: true)  do  |f| %>
-			<div id="map_modal_<%= loc.place_id %>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<%= form_for(loc, url: "locations/#{loc.uuid}/", method: :put, remote: true)  do  |f| %>
+			<div id="map_modal_<%= rel.created_at.to_i %>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 			  <div class="modal-dialog">
 			  <div class="modal-content">
 			      <div class="modal-header">
@@ -100,23 +99,23 @@
 			<% end %>        
     <% end %>
 	</div>		 
-	<% if @edu_loc.count > 0 %>       
+	<% if @edu_rel.count > 0 %>       
 		<h4 class="semibold mt15"><i class="ico-reading"></i> Education</h4>
 	<% end %>
 	<div class="ml15">
-    <% @edu_loc.each do |loc| %>
+    <% @edu_rel.each do |rel| %>
+    <% loc = rel.end_node %>
     <div class="location_div">
     			<hr class="mt15 mb10">
-		        <a href="#map_modal_<%= loc.place_id %>" class="pull-right" data-toggle="modal" id="a_modal_<%= loc.place_id %>"><i class="ico-pencil icon-silver font-10"></i></a>
-		        <% rel = current_user.rels(type: :places, between: loc)[0] %>
+		        <a href="#map_modal_<%= rel.created_at.to_i %>" class="pull-right" data-toggle="modal" id="a_modal_<%= loc.place_id %>"><i class="ico-pencil icon-silver font-10"></i></a>
 		            <% unless loc.name.nil? %>
 		            <h4 class="semibold nm font-16"><%= loc.name unless loc.name.nil? %><span class="text-default pull-right font-13 mr10"><%= rel.current_place? ? 'currently ' : '' %></span></h4>
 		            <% end %>
 		         <div class=" font-15" ><%= rel.details %></div> 
 		         <span class="text-default"> <%= loc.address %></span>
 	</div>	
-	<%= form_for(loc, remote: true)  do  |f| %>
-			<div id="map_modal_<%= loc.place_id %>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<%= form_for(loc, url: "locations/#{loc.uuid}/", method: :put, remote: true)  do  |f| %>
+			<div id="map_modal_<%= rel.created_at.to_i %>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 			  <div class="modal-dialog">
 			  <div class="modal-content">
 			      <div class="modal-header">
@@ -180,23 +179,23 @@
 			<% end %>	        
     <% end %>
 	</div>	
-	<% if @home_loc.count > 0 %>       
+	<% if @home_rel.count > 0 %>       
 		<h4 class="semibold mt15"><i class="ico-home3"></i> Home</h4>		        
 	<% end %>	        
 	<div class="ml15">
-    <% @home_loc.each do |loc| %>
+    <% @home_rel.each do |rel| %>
+    <% loc = rel.end_node %>
     <div class="location_div">
     			<hr class="mt15 mb10">
-		        <a href="#map_modal_<%= loc.place_id %>" class="pull-right" data-toggle="modal" id="a_modal_<%= loc.place_id %>"><i class="ico-pencil icon-silver font-10"></i></a>
-		        <% rel = current_user.rels(type: :places, between: loc)[0]  %>
+		        <a href="#map_modal_<%= rel.created_at.to_i %>" class="pull-right" data-toggle="modal" id="a_modal_<%= loc.place_id %>"><i class="ico-pencil icon-silver font-10"></i></a>
 		            <% unless loc.name.nil? %>
 		            <h4 class="semibold nm font-16"><%= loc.name unless loc.name.nil? %><span class="text-default pull-right font-13 mr10"><%= rel.current_place? ? 'currently ' : '' %></span></h4>
 		            <% end %>
 		            <div class=" font-15" ><%= rel.details %></div>
 		        <span class="text-default"> <%= loc.address %></span>
 	</div>	
-	<%= form_for(loc, remote: true)  do  |f| %>
-			<div id="map_modal_<%= loc.place_id %>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<%= form_for(loc, url: "locations/#{loc.uuid}/", method: :put, remote: true)  do  |f| %>
+			<div id="map_modal_<%= rel.created_at.to_i %>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 			  <div class="modal-dialog">
 			  <div class="modal-content">
 			      <div class="modal-header">
@@ -260,23 +259,23 @@
 			<% end %>	        
     <% end %>
 	</div>	
-	<% if @other_loc.count > 0 %>       
+	<% if @other_rel.count > 0 %>       
 		<h4 class="semibold mt15"><i class="ico-library"></i> Other</h4>     
 	<% end %>		        
 	<div class="ml15">
-    <% @other_loc.each do |loc| %>
+    <% @other_rel.each do |rel| %>
+    <% loc = rel.end_node %>
     <div class="location_div">
     			<hr class="mt15 mb10">
-		        <a href="#map_modal_<%= loc.place_id %>" class="pull-right" data-toggle="modal" id="a_modal_<%= loc.place_id %>"><i class="ico-pencil icon-silver font-10"></i></a>
-		        <% rel = current_user.rels(type: :places, between: loc)[0] %>
+		        <a href="#map_modal_<%= rel.created_at.to_i %>" class="pull-right" data-toggle="modal" id="a_modal_<%= loc.place_id %>"><i class="ico-pencil icon-silver font-10"></i></a>
 		            <% unless loc.name.nil? %>
 		            <h4 class="semibold nm font-16"><%= loc.name unless loc.name.nil? %><span class="text-default pull-right font-13 mr10"><%= rel.current_place? ? 'currently ' : '' %></span></h4>
 		            <% end %>
 		        <div class=" font-15" ><%= rel.details %></div> 
 		        <span class="text-default"> <%= loc.address %></span>
 	</div>	
-	<%= form_for(loc, remote: true)  do  |f| %>
-			<div id="map_modal_<%= loc.place_id %>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<%= form_for(loc, url: "locations/#{loc.uuid}/", method: :put, remote: true)  do  |f| %>
+			<div id="map_modal_<%= rel.created_at.to_i %>" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 			  <div class="modal-dialog">
 			  <div class="modal-content">
 			      <div class="modal-header">
@@ -350,6 +349,7 @@
 	});
 		 	$(".location_edit_submit_btn").click(function(){
 			  $(".modal").modal('hide');
+			  $("body").removeClass('modal-open');
 			});
 			
 			$('.location-footer2').hide();
@@ -361,6 +361,7 @@
 			});
 			$(".location-delete-yes").click(function(){
 			  $(".modal").modal('hide');
+			  $("body").removeClass('modal-open');
 				$(this).parent().hide('slow');
 				$(this).parent().prev().show('slow');
 			});

@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   root to: 'static_pages#home'
 
   resources :interests, only: [:create, :destroy, :update]
-  resources :my_locations, only: [:create, :destroy, :update]
+  resources :my_locations, only: [:create, :destroy, :update],controller: 'locations'
 
   resources :users do
     collection do
