@@ -1,0 +1,12 @@
+class MyBadge
+  include Neo4j::ActiveNode
+
+  property :badgeType, :type => String, :index => :exact
+  property :status, :type => Boolean, :index => :exact
+  property :comment, :type => String
+
+  has_one :in, :giveBadges,  model_class: User,  rel_class: GiveBadge
+  has_one :out, :badgeDetails,  model_class: Badge,  rel_class: BadgeDetail
+  has_one :in, :getBadges,  model_class: User,  rel_class: GetBadge
+
+end
