@@ -1,7 +1,7 @@
 class Badge
   include Neo4j::ActiveNode
 
-  property :badgeType, :type => String, :index => :exact
+  property :badgeType, :type => String, :index => :exact #, constraint: :unique
   property :pic, :type => String
   property :about, :type => String
 

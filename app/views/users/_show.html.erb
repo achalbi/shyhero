@@ -48,7 +48,7 @@
                                             <h4 class="nm">
                                               <i class="ico-medal2 icon-gold img-responsive center_block icon-font-40"></i>
                                             </h4>
-                                            <h4 class="nm mt5"><%= current_user.rels(dir: :incoming, type: "badges").count %></h4>
+                                            <h4 class="nm mt5"></h4>
                                         </div>
                                     </li>
                                     <li>
@@ -213,26 +213,19 @@
                               <div class="panel panel-default">
                                   <!-- panel heading/header -->
                                   <div class="panel-heading">
-                                      <h3 class="panel-title"><i class="ico-medal2"></i> Looks Badges</h3>
-                                      <!-- panel toolbar -->
-                                      <div class="panel-toolbar text-right">
-                                          <!-- option -->
-                                              
-                                          <div class="option">
-                                                <a  href="#interest_modal" role="button" data-toggle="modal" class="btn demo a-color-inherit" id="interest_link">
-                                                  <i class="ico-plus-circle"></i>
-                                                </a>              
-                                          </div>
-                                          <!--/ option -->
-                                      </div>
-                                      <!--/ panel toolbar -->
+                                      <h3 class="panel-title"><i class="ico-medal2"></i>Personality</h3>
                                   </div>
                                   <!--/ panel heading/header -->
                                   
                                   <!-- panel body with collapse capable -->
                                   <div class="panel-collapse pull out">
-                                      <div class="panel-body">
-                                          <%= render partial: "users/badges", :locals => {:user => current_user} %>
+                                      <div class="panel-body" >
+                                      <div  id="badges_req_block">
+                                          <%= render partial: "badges/requests", :locals => {:user => @user} %>
+                                      </div>
+                                      <div  id="badges_block">
+                                          <%= render partial: "badges/badges", :locals => {:user => @user} %>
+                                      </div>
                                       </div>
                                   </div>
                                   <!--/ panel body with collapse capabale -->
@@ -387,7 +380,7 @@
             <div class="panel">
               <div class="panel-body">
                   <div class="btn-tag">
-                    <% ["Art & Craft","Blogging","Board games","Cooking","Driving / Riding","Exploring","Fitness","Foodie","Gardening","Gym","Martial arts","Mechanic","Movies","Music","Pet lover" ,"Photography","Playing instument","Puzzle solving","Books","Shopaholic","Sports","Singing","Video games","Yoga","Other"].each do |k| %>
+                    <% ["Adventure","Art & Craft","Blogging","Board games","Cooking","Driving / Riding","Exploring","Fitness","Foodie","Gardening","Gym","Martial arts","Mechanic","Movies","Music","Pet lover" ,"Photography","Playing instument","Puzzle solving","Books","Shopaholic","Sports","Singing","Video games","Yoga","Other"].each do |k| %>
                             <a href="javascript:void(0);" class="btn btn btn-teal btn-outline mb5 btn-sm interest-btn"><%= "#{k}"  %></a>
                              
                      <% end %>

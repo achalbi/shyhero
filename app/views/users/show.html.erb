@@ -11,9 +11,9 @@
                            <!-- panel ribbon -->
 
                             <% if @like %>
-                              <a href='/users/<%= @user.uuid %>/likes' class='like panel-ribbon-60 panel-ribbon panel-ribbon-teal pull-right' data-remote='true'><i class='ico-heart icon-white icon-font-22'></i></a>
+                              <a href='/users/<%= @user.uuid %>/likes' class='like panel-ribbon-60 panel-ribbon panel-ribbon-default pull-right' data-remote='true'><i class='ico-heart icon-white icon-font-22'></i></a>
                             <% else %>
-                              <a href='/users/<%= @user.uuid %>/likes' class='like panel-ribbon-60 panel-ribbon panel-ribbon-teal pull-right' data-remote='true'><i class='ico-heart icon-red icon-font-22'></i></a>
+                              <a href='/users/<%= @user.uuid %>/likes' class='like panel-ribbon-60 panel-ribbon panel-ribbon-default pull-right' data-remote='true'><i class='ico-heart icon-red icon-font-22'></i></a>
                             <% end %>
                                                          
                           <!--/ panel ribbon -->
@@ -97,7 +97,7 @@
                         </div>
                         <!--/ END Widget Panel -->
 
-                              <div class="panel panel-teal overflow-hidden">
+                              <div class="panel panel-default overflow-hidden">
                                                                   <!-- panel heading/header -->
                                   <div class="panel-heading">
                                       <h3 class="panel-title">My pictures</h3>
@@ -114,21 +114,18 @@
 
                             <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
                               <!-- START panel -->
-                              <div class="panel panel-teal">
+                              <div class="panel panel-default">
                                   <!-- panel heading/header -->
                                   <div class="panel-heading">
-                                      <h3 class="panel-title">Others think me as</h3>
+                                      <h3 class="panel-title"> <i class="ico-quill2"></i> Testimonial</h3>
                                       <!-- panel toolbar -->
                                       <div class="panel-toolbar text-right">
                                           <!-- option -->
-                                              
-                                          <div class="option">
-                                              <button class="btn demo a-color-inherit" >
-                                                <a  href="#testimonial_modal" role="button" data-toggle="modal"class="">
+                                           <div class="option">
+                                                <a  href="#testimonial_modal" role="button" data-toggle="modal" class="btn demo a-color-inherit" id="address_link">
                                                   <i class="ico-plus-circle"></i>
                                                 </a>              
-                                              </button>              
-                                          </div>
+                                          </div>   
                                           <!--/ option -->
                                       </div>
                                       <!--/ panel toolbar -->
@@ -150,31 +147,17 @@
                               <!--/ END panel -->
 
                               <!-- START panel -->
-                              <div class="panel panel-teal">
+                              <div class="panel panel-default">
                                   <!-- panel heading/header -->
                                   <div class="panel-heading">
-                                      <h3 class="panel-title">Places</h3>
-                                      <!-- panel toolbar -->
-                                      <div class="panel-toolbar text-right">
-                                          <!-- option -->
-                                              
-                                          <div class="option">
-                                              <button class="btn demo a-color-inherit" >
-                                                <a  href="#address_modal" role="button" data-toggle="modal"class="">
-                                                  <i class="ico-plus-circle"></i>
-                                                </a>              
-                                              </button>              
-                                          </div>
-                                          <!--/ option -->
-                                      </div>
-                                      <!--/ panel toolbar -->
+                                      <h3 class="panel-title"><i class="ico-map-marker"></i> Location </h3>
                                   </div>
                                   <!--/ panel heading/header -->
                                   
                                   <!-- panel body with collapse capable -->
                                   <div class="panel-collapse pull out">
                                       <div class="panel-body">
-                                          <%= render partial: "users/places", :locals => {:user => @user} %>
+                                          <%= render partial: "locations/places", :locals => {:user => @user} %>
                                       </div>
                                   </div>
                                   <!--/ panel body with collapse capabale -->
@@ -186,20 +169,18 @@
                               <!--/ END panel -->
 
                               <!-- START panel -->
-                              <div class="panel panel-teal">
+                              <div class="panel panel-default">
                                   <!-- panel heading/header -->
                                   <div class="panel-heading">
-                                      <h3 class="panel-title">Badges</h3>
+                                      <h3 class="panel-title"><i class="ico-medal2"></i>Personality</h3>
                                       <!-- panel toolbar -->
                                       <div class="panel-toolbar text-right">
                                           <!-- option -->
                                               
                                           <div class="option">
-                                              <button class="btn demo a-color-inherit" >
-                                                <a  href="#badges_modal" role="button" data-toggle="modal"class="">
+                                               <a  href="#badge_modal" role="button" data-toggle="modal" class="btn demo a-color-inherit" id="address_link">
                                                   <i class="ico-plus-circle"></i>
                                                 </a>              
-                                              </button>              
                                           </div>
                                           <!--/ option -->
                                       </div>
@@ -209,8 +190,13 @@
                                   
                                   <!-- panel body with collapse capable -->
                                   <div class="panel-collapse pull out">
-                                      <div class="panel-body" id="badges_block">
-                                          <%= render partial: "users/badges", :locals => {:user => @user} %>
+                                      <div class="panel-body" >
+                                      <div  id="badges_req_block">
+                                          <%= render partial: "badges/requests", :locals => {:user => @user} %>
+                                      </div>
+                                      <div  id="badges_block">
+                                          <%= render partial: "badges/badges", :locals => {:user => @user} %>
+                                      </div>
                                       </div>
                                   </div>
                                   <!--/ panel body with collapse capabale -->
@@ -373,4 +359,66 @@
               }
           });
 
+</script>
+
+
+<!--MyBadge modal-->
+<%= form_for(MyBadge.new , remote: true)  do |f| %>
+<div id="badge_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="semibold mt0 mb0">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      Give Personality Badge</h5>
+      </div>
+      <div class="modal-body">
+          <!-- <form class="form center-block"> -->
+          <%= hidden_field_tag "user_id", "#{@user.uuid}"  %>
+          <div class="form-group">
+            <div class="panel">
+              <div class="panel-body">
+                  <div class="btn-tag">
+                    <% Badge.all.each do |k| %>
+                            <a href="javascript:void(0);" class="btn btn btn-warning icon-ubuntu btn-outline btn-ubuntu-outline mb5 btn-sm badge-btn"><%= "#{k.badgeType}"  %></a>
+                             
+                     <% end %>
+                    </div>
+                  <div class="input-group">
+                    <label class="col-sm-3 control-label mt10">Type</label>
+                    <div class="col-sm-9">
+                      <%= f.text_field 'badgeType', class: "form-control mt10", readonly: true, id: "new_badgeType" %>
+                    </div>
+                    <label class="col-sm-12 control-label">Comment</label>
+                    <div class="col-sm-12">
+                      <%= f.text_area 'comment' , class: "form-control mt10" %>
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- </form> -->
+      </div>
+      <div class="modal-footer">
+          <div id="badge_submit_div" class="dis-none-imp" >
+          <button type="submit" class="btn btn-primary ladda-button mb5" data-style="expand-right" id="badge_submit_btn"><span class="ladda-label">Submit</span><span class="ladda-spinner"></span></button>
+          
+          </div>  
+      </div>
+  </div>
+</div>
+</div>
+<% end %>
+
+<script>
+$(".badge-btn").click(function(){
+  $(this).parent().children('a').removeClass("btn-ubuntu-outline");
+  $(this).parent().children('a').removeClass("btn-ubuntu");
+  $(this).parent().children('a').addClass("btn-ubuntu-outline");
+  $(this).removeClass("btn-ubuntu-outline");
+  $(this).addClass("btn-ubuntu");
+  $("#new_badgeType").val($(this).text());
+  $("#badge_submit_div").removeClass('dis-none-imp');
+});
 </script>

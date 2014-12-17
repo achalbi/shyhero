@@ -53,6 +53,7 @@
 *.font-16 {font-size: 16px !important;}
 *.font-18 {font-size: 18px !important;}
 *.font-20 {font-size: 20px !important;}
+*.font-25 {font-size: 25px !important;}
 
 .panel > .panel-ribbon-60 {
   width: 60px !important;
@@ -131,6 +132,9 @@
 	width: 30px !important;
 }
 
+.width-50{
+  width: 50px !important;
+}
 
 .width-20{
 	width: 20px !important;
@@ -243,7 +247,42 @@ padding-right: 15px!important;
   */
   background-color: #f17a49!important;
 }
+  .frontend #header.navbar .navbar-header {
+    background-color: transparent!important;
+  }
 
 .navbar-main > a{
   background-color: #f17a49!important;
+}
+
+.totop{
+  background-color: #f17a49!important;
+}
+
+.btn-ubuntu-outline{
+  color: #f17a49!important;
+  border-color: #f17a49!important;
+}
+
+.btn-ubuntu{
+  color: white!important;
+  border-color: #f17a49!important;
+  background-color: #f17a49!important;
+}
+.br-nobg:before {
+  background: none;
+  filter: none;
+}
+
+.li_link:hover{
+  cursor: pointer;
+  background-color: #91c854!important;
+  color: white!important;
+}
+
+.li_link:hover > .section > .text-grey{
+  color: white!important;
+}
+.text-grey{
+  color: #A2A2A2;
 }

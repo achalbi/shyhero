@@ -14,6 +14,17 @@ Rails.application.routes.draw do
 
   resources :interests, only: [:create, :destroy, :update]
   resources :my_locations, only: [:create, :destroy, :update],controller: 'locations'
+  resources :my_badges, only: [:create, :destroy, :update, :like],controller: 'badges'
+
+  resources :my_badges do
+    member do
+      get :like, controller: 'badges'
+    end
+    collection do
+      get :badge_list, controller: 'badges'
+    end
+  end
+
 
   resources :users do
     collection do

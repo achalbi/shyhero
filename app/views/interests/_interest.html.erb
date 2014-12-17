@@ -2,8 +2,10 @@
 <% @interests.each do |i|  %>
 	<% cnt = cnt+1 %>
 	<address>
-		<h4 class="semibold">
+		<h4 class="">
 						<% case "#{i.interestType}" %>
+						<% when "Adventure" %>
+							<i class="flaticon-climbing6"></i>
 						<% when "Art & Craft" %>
 							<i class="ico-palette"></i>
 						<% when "Blogging" %>
@@ -21,7 +23,7 @@
 						<% when "Foodie" %>
 							<i class="ico-food"></i>
 						<% when "Gardening" %>
-							<i class="ico-tree"></i>
+							<i class="ico-flower"></i>
 						<% when "Gym" %>
 							<i class="ico-dumbbell"></i>
 						<% when "Martial arts" %>
@@ -55,7 +57,7 @@
 						<% else %>
 							<i class="ico-file2"></i>
 						<% end %>
-		<%= i.interestType %>  <span class="text-default font-15"> <%= i.interestSubType %></span>
+		<span class="semibold"><%= i.interestType %></span>  <span class="text-default font-15"> <%= i.interestSubType %></span>
 			<a href='#interest_edit_modal_<%= i.uuid %>' role="button" data-toggle="modal" class="pull-right dis-none-imp interest_edit">
 				<i class="ico-pencil icon-silver  font-10"></i>
 			</a>

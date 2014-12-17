@@ -95,6 +95,8 @@ autocomplete :location, :address, :full => true
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
+    session['user_id'] = params[:id]
+    session['user_gender'] = @user.gender
     unless @user.uuid == current_user.uuid
       unless  current_user.rels(dir: :outgoing, type: :visits, between: @user).blank?
         rel = current_user.rels(dir: :outgoing, type: :visits, between: @user)
@@ -126,6 +128,8 @@ autocomplete :location, :address, :full => true
       end
     end
 =end
+     @req_badges = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{@user.uuid}' })").where("   myBadge.status = false  ").pluck(:myBadge)
+     @badges = Neo4j::Session.query.match("(me { uuid: '#{@user.uuid}' })-[:getBadges]->(myBadge)").where("myBadge.status = true").pluck('DISTINCT myBadge.badgeType, count(myBadge.badgeType)')
 
     @pictures = @user.pictures
     @testimonials = @user.testimonials

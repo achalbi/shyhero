@@ -1,0 +1,67 @@
+class BadgesController < ApplicationController
+
+def create
+  badgeType = params[:my_badge][:badgeType]
+     @user = User.find(params[:user_id])
+    if params[:my_badge][:badgeType].nil?
+      @req_badges = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{@user.uuid}' })").where("   myBadge.status = false  ").pluck(:myBadge)
+      @badges = Neo4j::Session.query.match("(me { uuid: '#{@user.uuid}' })-[:getBadges]->(myBadge)").where("myBadge.status = true").pluck('DISTINCT myBadge.badgeType, count(myBadge.badgeType)')
+      return
+    end
+      @badge = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{params[:user_id]}' })").where("   myBadge.badgeType = '#{badgeType}'  ").pluck(:myBadge)
+    if @badge.count > 0
+      @req_badges = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{@user.uuid}' })").where("   myBadge.status = false  ").pluck(:myBadge)
+      @badges = Neo4j::Session.query.match("(me { uuid: '#{@user.uuid}' })-[:getBadges]->(myBadge)").where("myBadge.status = true").pluck('DISTINCT myBadge.badgeType, count(myBadge.badgeType)')
+      return
+    end
+     @badge = Badge.find_by(badgeType: badgeType)
+     @myBadge = MyBadge.create(badge_params)
+     @give_badge_rel =  GiveBadge.create(from_node: current_user, to_node: @myBadge)
+     @badge_detail_rel =  BadgeDetail.create(from_node: @myBadge, to_node: @badge)
+     @get_badge_rel =  GetBadge.create(from_node: @user, to_node: @myBadge)
+     @req_badges = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{@user.uuid}' })").where("   myBadge.status = false  ").pluck(:myBadge)
+     @badges = Neo4j::Session.query.match("(me { uuid: '#{@user.uuid}' })-[:getBadges]->(myBadge)").where("myBadge.status = true").pluck('DISTINCT myBadge.badgeType, count(myBadge.badgeType)')
+
+end
+
+def destroy
+  @badge = MyBadge.find(params[:id])
+  @badge.rels(dir: :incoming, type: "giveBadges")[0].destroy
+  @badge.rels(dir: :outgoing, type: "badgeDetails")[0].destroy
+  @badge.rels(dir: :incoming, type: "getBadges")[0].destroy
+  @badge.destroy
+  @user = User.find(session['user_id'])
+  #@req_badges = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{@user.uuid}' })").where("   myBadge.status = false  ").pluck(:myBadge)
+  #@req_badges = Neo4j::Session.query.match("(any_user)-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{@user.uuid}' })").where("   myBadge.status = false  ").pluck(:myBadge)
+  @badges = Neo4j::Session.query.match("(me { uuid: '#{@user.uuid}' })-[:getBadges]->(myBadge)").where("myBadge.status = true").pluck('DISTINCT myBadge.badgeType, count(myBadge.badgeType)')
+
+end
+
+def update
+end
+
+def like
+  @likebadge = MyBadge.find(params[:id])
+  @likebadge.status = true
+  @likebadge.save!
+  @user = User.find(session['user_id'])
+  #@req_badges = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{@user.uuid}' })").where("   myBadge.status = false  ").pluck(:myBadge)
+  #@req_badges = Neo4j::Session.query.match("(any_user)-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{@user.uuid}' })").where("   myBadge.status = false  ").pluck(:myBadge)
+  @badges = Neo4j::Session.query.match("(me { uuid: '#{@user.uuid}' })-[:getBadges]->(myBadge)").where("myBadge.status = true").pluck('DISTINCT myBadge.badgeType, count(myBadge.badgeType)')
+
+end
+
+def badge_list
+  @user = User.find(session['user_id'])
+  @badges = @user.getBadges.where(badgeType: params[:type], status: true)
+  render :layout => false
+end
+
+private
+
+def badge_params
+   params.require(:my_badge).permit(:badgeType, :comment)
+end
+
+
+end

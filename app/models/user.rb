@@ -49,6 +49,8 @@ class User
   has_many :out, :visits,  model_class: User,  rel_class: Visit
   has_many :out, :add_pic,  model_class: User,  rel_class: Add_pic
   has_many :out, :add_status,  model_class: User,  rel_class: Add_status
+  has_many :out, :giveBadges,  model_class: MyBadge,  rel_class: GiveBadge
+  has_many :out, :getBadges,  model_class: MyBadge,  rel_class: GetBadge
 
   #has_one :out, :users_place, type: :users_place, model_class: Location
   #has_n(:friends).to(User).relationship(Friend)
