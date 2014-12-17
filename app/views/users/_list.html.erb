@@ -72,7 +72,7 @@
                                     <li>
                                         <div class="section">
                                             <h4 class="nm"><img src="/assets/icons/pagequality1x64.png" alt="" class="img-responsive center_block"></h4>
-                                            <h4 class="nm mt5"><%= friend.rels(dir: :incoming, type: "badges").count %></h4>
+                                            <h4 class="nm mt5"><%= friend.getBadges.where(status: true).count %></h4>
                                         </div>
                                     </li>
                                     <li>

@@ -130,6 +130,7 @@ autocomplete :location, :address, :full => true
 =end
      @req_badges = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{@user.uuid}' })").where("   myBadge.status = false  ").pluck(:myBadge)
      @badges = Neo4j::Session.query.match("(me { uuid: '#{@user.uuid}' })-[:getBadges]->(myBadge)").where("myBadge.status = true").pluck('DISTINCT myBadge.badgeType, count(myBadge.badgeType)')
+     @badges_count = @user.getBadges.where(status: true).count
 
     @pictures = @user.pictures
     @testimonials = @user.testimonials
@@ -334,7 +335,7 @@ autocomplete :location, :address, :full => true
     create_destroy_badges(@my_badges, 'kind', params[:kind], @user)
     create_destroy_badges(@my_badges, 'stingy', params[:stingy], @user)
 
-    @badges_count = @user.rels(dir: :incoming, type: "badges").count
+    @badges_count = @user.getBadges.where(status: true).count
 
     @uniq_badges = @user.rels(dir: :incoming, type: :badges).each.map {|r| r.badgeType}.uniq
     @all_badges = {}
