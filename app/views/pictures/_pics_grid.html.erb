@@ -110,7 +110,7 @@
 </ul>
 </div>
 <!--/ END Gridster -->
-<% else %>
+<% elsif @pictures.count > 3 %>
 <% n = @pictures.count %>
 <!-- START Gridster -->
 <div class="img-grid">
@@ -181,5 +181,7 @@
   </li>
 </ul>
 </div>
-<!--/ END Gridster -->
+<% else %>
+  No pictures
 <% end %>
+<!--/ END Gridster -->
