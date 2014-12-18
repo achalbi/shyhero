@@ -463,24 +463,12 @@
   </div>
 </div>
 </div>
-<div class="dis-none-imp">
-  <% unless @pictures.nil? %>
-      <% @pictures.each do |picture| %>
-        <a href="<%= cloudinary_url(picture.pic, :crop => :fill) %>" class="btn btn-default profile_pics" title="view picture">1</a>
-      <% end %>
-  <% end %>
-</div>
+
 <script>
  
   $("#li_profile").addClass("active");
   $("#minimize_sidebar_a").click();
 
-         $(".profile_pics").magnificPopup({
-              type: "image",
-              gallery: {
-                  enabled: true
-              }
-          });
 
 $('#pics_link').click(function(){
   $("#pics_modal_body").empty();

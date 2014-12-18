@@ -14,12 +14,14 @@
           <!-- </form> -->
             <div class="thumbnails  text-center" >
             </div>
+            <br>
             <div class="dis-none-imp">
                 <div class="progress progress-striped active">
                     <div class="progress-bar progress-bar-success" >
                        <span class="sr-only"></span>
                     </div>
                 </div>
+                <br>  
             </div>
             
       </div>
@@ -45,15 +47,16 @@ $('.upload_form').append($.cloudinary.unsigned_upload_tag("shyhero",
         crop: 'fill', gravity: 'faces', effect: 'saturation:50' } ));
     $('#picture_pic').val(data.result.public_id);
     $('#picture_submit').removeClass("disabled");
+    $('.progress').parent().append('<h3 class="text-center">Upload completed</h3>');
   }).bind('fileuploadsend', function(e, data) {
     $('.progress').parent().removeClass('dis-none-imp');
     $('.fileupload').hide();
-    $('.progress-bar').css('width','10%');
+    $('.progress-bar').css('width','7%');
   }).bind('fileuploadprogress', function(e, data) { 
     $('.progress-bar').css('width', 
       Math.round((data.loaded * 100.0) / data.total) + '%'); 
         if( Math.round((data.loaded * 100.0) / data.total) == 100){
-          $('.progress').parent().addClass('dis-none-imp');
+         // $('.progress').parent().append('<h3 class="text-center">Upload completed</h3>');
         }
   }));
 </script>

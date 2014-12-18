@@ -1,5 +1,5 @@
 <div class="row shuffle-grid" id="shuffle-grid">
-                    <% unless @pictures.nil? %>
+                <% unless @pictures.nil? %>
                     <% @pictures.each do |picture| %>
                     <div class="col-md-4 shuffle picture_each" data-groups='["user<%= @user.uuid %>"]' data-date-created="" data-title="<%= picture.pic %>">
                         <!-- thumbnail -->
@@ -47,7 +47,9 @@
                         <!--/ thumbnail -->
                     </div>
                     <% end %>
-                    <% end %>
+                <% else %>
+                     <h5 class="text-center">No pictures</h5>
+                <% end %>
 </div>
 <script>
 

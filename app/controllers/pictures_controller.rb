@@ -2,7 +2,9 @@ class PicturesController < ApplicationController
 
 def create
 	@picture = Picture.create(picture_params)
-	@my_pictures = MyPicture.create(from_node: current_user, to_node: @picture)
+	@user = current_user
+	@my_pictures = MyPicture.create(from_node: @user, to_node: @picture)
+	@pictures = @user.pictures.nil? ? []: @user.pictures
 end
 
 def destroy
