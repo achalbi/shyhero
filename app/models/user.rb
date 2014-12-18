@@ -20,8 +20,8 @@ class User
   property :friends_list
   serialize :friends_list
 
-  property :pictures
-  serialize :pictures
+  property :pics
+  serialize :pics
 
   property :visible_pictures
   serialize :visible_pictures
@@ -43,7 +43,7 @@ class User
   has_many :out, :write_testimonials, model_class: Testimonial,  rel_class: Write_testimonial
   has_many :out, :likes_testimonial, model_class: Testimonial,  rel_class: Like_testimonial
   has_many :in, :testimonials, model_class: Testimonial,  rel_class: My_testimonial
-  has_many :out, :profile_pics,  model_class: Picture,  rel_class: Profile
+  has_many :out, :pictures,  model_class: Picture,  rel_class: MyPicture
   has_many :out, :userInterests,  model_class: Interest,  rel_class: MyInterest
   #has_one :out, :default_pics,  model_class: Picture,  rel_class: Profile
   has_many :out, :visits,  model_class: User,  rel_class: Visit
@@ -69,9 +69,6 @@ class User
       #user.dob = DateTime.parse(user_details['birthday'])
       user.remember_token = SecureRandom.urlsafe_base64
     end
-
-    #UserMailer.welcome_email(user).deliver
-
   end
 
   def self.paginate(options={})

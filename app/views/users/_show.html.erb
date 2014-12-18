@@ -106,7 +106,7 @@
                                   <!--/ panel heading/header -->
                                   <hr class="nm"><!-- horizontal line -->
                                   <div class="images_div" href="#">
-                                    <%= render 'users/pics_grid' %>
+                                    <%= render 'pictures/pics_grid' %>
                                   </div>
                               </div>
                           
@@ -432,46 +432,17 @@
 </div>
 <% end %>
 
-<%= form_for(current_user , url: "users/#{current_user.uuid}/add_picture", remote: true)  do %>
 <div id="profile_pic_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
   <div class="modal-content">
-      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      Upload profile picture
-      </div>
-      <div class="modal-body">
-          <!-- <form class="form center-block"> -->
-            <div class="fileupload fileupload-new text-center" data-provides="fileupload">
-              <span class="btn btn-primary btn-file">
-                <span class="fileupload-new">Select a file</span>
-                <span class="form-group upload_form"></span>
-              </span>
-            </div>
-          <!-- </form> -->
-            <div class="thumbnails  text-center" >
-            </div>
-            <div class="dis-none-imp">
-                <div class="progress progress-striped active">
-                    <div class="progress-bar progress-bar-success" >
-                       <span class="sr-only"></span>
-                    </div>
-                </div>
-            </div>
-            
-      </div>
-      <div class="dis-none-imp">
-        <%= text_field_tag 'pic' %>
-      </div>
-      <div class="modal-footer">
-          <div>
-            <%= submit_tag "Submit", class: "btn btn-primary btn-sm disabled", 'aria-hidden'=>"true", id: "picture_submit" %> 
-          </div>  
-      </div>
+
+    <div id="upload_pic">
+      <%= render 'pictures/upload_pic'%>
+    </div>
+
   </div>
 </div>
 </div>
-<% end %>
 
 <div id="pics_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
@@ -494,8 +465,8 @@
 </div>
 <div class="dis-none-imp">
   <% unless @pictures.nil? %>
-      <% @pictures.each do |pic| %>
-        <a href="<%= cloudinary_url(pic, :crop => :fill) %>" class="btn btn-default profile_pics" title="view picture">1</a>
+      <% @pictures.each do |picture| %>
+        <a href="<%= cloudinary_url(picture.pic, :crop => :fill) %>" class="btn btn-default profile_pics" title="view picture">1</a>
       <% end %>
   <% end %>
 </div>
@@ -514,28 +485,11 @@
 $('#pics_link').click(function(){
   $("#pics_modal_body").empty();
   $("#pics_modal_body").html("<h4 class='text-center'> Loading... </h4>");
-  $.getScript( "users/<%= current_user.uuid %>/pics_edit");
+  $.getScript( "pictures/pics_edit");
 });
 
 $.cloudinary.config('cloud_name', 'rashi');
-$('.upload_form').append($.cloudinary.unsigned_upload_tag("shyhero", 
-  { cloud_name: 'rashi', tags: 'uploads' }, 
-    { multiple: false }
-  ).bind('cloudinarydone', function(e, data) {
-    $('.thumbnails').append($.cloudinary.image(data.result.public_id, 
-      { format: 'jpg', width: 175, height: 250, 
-        crop: 'fill', gravity: 'faces', effect: 'saturation:50' } ));
-    $('#pic').val(data.result.public_id);
-    $('#picture_submit').removeClass("disabled");
-  }).bind('cloudinaryprogress', function(e, data) { 
-    $('.progress').parent().removeClass('dis-none-imp');
-    $('.fileupload').hide();
-    $('.progress-bar').css('width', 
-      Math.round((data.loaded * 100.0) / data.total) + '%'); 
-        if( Math.round((data.loaded * 100.0) / data.total) == 100){
-          $('.progress').parent().addClass('dis-none-imp');
-        }
-  }));
+
 
   $('.upload_field').unsigned_cloudinary_upload("shyhero", 
     { cloud_name: 'rashi', tags: 'uploads' }, 

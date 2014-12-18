@@ -1,4 +1,4 @@
-class Profile 
+class MyPicture 
 	include Neo4j::ActiveRel
 	property :visible, :type => Boolean
 	property :created_at  # will automatically be set when model changes
@@ -7,6 +7,6 @@ class Profile
 
   from_class User
   to_class   Picture
-  type 'profile_pics'
+  type 'pictures'
 
 end

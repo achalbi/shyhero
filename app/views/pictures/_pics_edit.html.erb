@@ -1,7 +1,7 @@
 <div class="row shuffle-grid" id="shuffle-grid">
                     <% unless @pictures.nil? %>
-                    <% @pictures.each do |pic| %>
-                    <div class="col-md-4 shuffle" data-groups='["user<%= @user.uuid %>"]' data-date-created="" data-title="<%= pic %>">
+                    <% @pictures.each do |picture| %>
+                    <div class="col-md-4 shuffle picture_each" data-groups='["user<%= @user.uuid %>"]' data-date-created="" data-title="<%= picture.pic %>">
                         <!-- thumbnail -->
                         <div class="thumbnail">
                             <!-- media -->
@@ -13,25 +13,34 @@
                                 <div class="overlay">
                                     <div class="toolbar">
                                         <a href="#" class="btn btn-default set_visible" title="pictures visible to others">
-                                            <% if @user.visible_pictures.include?(pic)  %>
+                                            <% if picture.visible  %>
                                             <i class="ico-checkmark-circle2 icon-green"></i>
                                             <% else %>
                                             <i class="ico-checkmark-circle2"></i>
                                             <% end %>
                                         </a>
-                                        <p class="dis-none-imp"><%= pic %></p>
+                                        <p class="dis-none-imp"><%= picture.pic %></p>
                                         <a href="#" class="btn btn-default set_default" title="Set as default picture" >
-                                            <% if pic == @user.default_pic  %>
+                                            <% if picture.pic == @user.default_pic  %>
                                             <i class="ico-heart icon-red"></i>
                                             <% else %>
                                             <i class="ico-heart icon-silver"></i>
                                             <% end %>
                                         </a>
-                                        <a href="#" class="btn btn-default delete_pic dis-none-imp" title="Delete"><i class="ico-close"></i></a>
+                                        <a href="#" class="btn btn-default delete_pic" title="Delete"><i class="ico-close"></i></a>
+                                    </div>
+                                    <div class="toolbar dis-none">
+                                        <ul class="list-group">
+                                            <li class="list-group-item center-div width-75-pc">
+                                                <h5 class="icon-black" >Are you sure?</h5>
+                                                    <a href='/pictures/<%= picture.uuid %>' data-method="delete" data-remote='true' class=" btn btn-primary btn-xs picture_delete_yes" >Yes</a>
+                                                    <a class=" btn btn-default btn-xs picture_delete_no" >No</a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                                 <!--/ toolbar overlay -->
-                                <img data-toggle="unveil" src="/assets/background/400x400/placeholder.jpg" data-src="<%= cloudinary_url(pic, :width => 175, :height => 200, :crop => :fill) %>" alt="Photo" width="100%" />
+                                <img data-toggle="unveil" src="/assets/background/400x400/placeholder.jpg" data-src="<%= cloudinary_url(picture.pic, :width => 175, :height => 200, :crop => :fill) %>" alt="Photo" width="100%" />
                             </div>
                             <!--/ media -->
                         </div>
@@ -46,17 +55,28 @@
             $(".set_default").html("<i class='ico-heart icon-silver'></i>");
             $(this).html("<i class='ico-heart icon-red'></i>");
             var pic = $(this).prev('p').html();
-            $.getScript("users/<%= @user.uuid %>/set_default_pic?default_pic="+pic);
+            $.getScript("pictures/set_default_pic?default_pic="+pic);
         });
         $(".set_visible").click(function(){
             var pic = $(this).next('p').html();
             if($(this).children('i').hasClass('icon-green')){
                 $(this).children('i').removeClass('icon-green');
-                $.getScript("users/<%= @user.uuid %>/set_visible_pic?visible_pic="+pic+"&status=false");
+                $.getScript("pictures/set_visible_pic?visible_pic="+pic+"&status=false");
             }else{
                 $(this).children('i').addClass('icon-green');
-                $.getScript("users/<%= @user.uuid %>/set_visible_pic?visible_pic="+pic+"&status=true");
+                $.getScript("pictures/set_visible_pic?visible_pic="+pic+"&status=true");
             }
+        });
+        $(".delete_pic").click(function(){
+            $(this).closest("div").next().removeClass("dis-none");
+            $(this).closest("div").addClass("dis-none");
+        });
+        $(".picture_delete_no").click(function(){
+            $(this).closest(".toolbar").prev().removeClass("dis-none");
+            $(this).closest(".toolbar").addClass("dis-none");
+        });
+        $(".picture_delete_yes").click(function(){
+            $(this).closest(".picture_each").remove();
         });
 
 </script>

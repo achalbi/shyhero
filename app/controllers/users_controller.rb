@@ -10,6 +10,7 @@ autocomplete :location, :address, :full => true
     if  @user.nil?
       @user = User.create_with_omniauth(oauth)
     # @user = User.find_by(email: oauth['extra']['raw_info']['email'])
+    #UserMailer.welcome_email(user).deliver
     end
     
     unless  @user.username.present? 
@@ -111,23 +112,8 @@ autocomplete :location, :address, :full => true
       end
         current_user.save!
     end
-    #@b = current_user.badges(:u, :r).where( uuid: @user.uuid ).pluck(:r)
-    #@badges = @b.map {|b| b.badgeType}.uniq
     @my_badges = []
-=begin
-    @uniq_badges =  @user.rels(dir: :incoming, type: :badges).each.map {|r| r.badgeType}.uniq
-    @all_badges = {}
-    @uniq_badges.each do |badge|
-      @all_badges[badge] = @user.rels(dir: :incoming, type: :badges).each.select{|r| r.badgeType == badge }.count
-    end
-    @badges_count = @user.rels(dir: :incoming, type: "badges").count
-    if current_user.uuid != @user.uuid
-        current_user.rels(dir: :outgoing, type: :badges, between: @user).each do |r|
-        #current_user.badges(:u, :r).where( uuid: @user.uuid ).each_with_rel do |u, r| 
-        @my_badges << r[:badgeType]
-      end
-    end
-=end
+
      @req_badges = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{@user.uuid}' })").where("   myBadge.status = false  ").pluck(:myBadge)
      @badges = Neo4j::Session.query.match("(me { uuid: '#{@user.uuid}' })-[:getBadges]->(myBadge)").where("myBadge.status = true").pluck('DISTINCT myBadge.badgeType, count(myBadge.badgeType)')
      @badges_count = @user.getBadges.where(status: true).count
@@ -237,39 +223,6 @@ autocomplete :location, :address, :full => true
     end
   end
 
-  def add_location
-  #  gc = Geocoder.search(params[:location_search])[0]
-     # @client = GooglePlaces::Client.new('AIzaSyAQ-rZcE4h_upePl7jGYTmt1AKypz3qXPk')
-     # gc = @client.spots_by_query(params[:location_search])[0]
-     if params[:place_id].nil?
-       return
-     end
-     @user = User.find(params[:id])
-      @location = Location.find_by(place_id: params[:place_id])
-      if @location.nil?
-          @location = Location.new
-          @location.address = params[:location_search]
-          @location.name = params[:location_name]
-          @location.place_id = params[:place_id]
-          @location.id_loc = params[:id_loc]
-          @location.latitude = params[:latitude]
-          @location.longitude = params[:longitude]
-          @location.save!
-      end
-      if @user.rels(type: :places, between: @location).blank?
-        @user.places << @location
-        @user.save!
-      end
-  end
-
-  def loc_users
-    @users = current_user.places.users
-    u = User.find(1158)
-    loc = Location.find(1155)
-    loc.places.gender_filter('female').to_a
-    
-  end
-
   def search_criteria
   @friends = []
     location_ids = params[:location_ids]#.map(&:to_i)
@@ -315,37 +268,6 @@ autocomplete :location, :address, :full => true
     @friends = current_user.likes.skip((2) * params[:page].to_i-2).limit(2)
   end
 
-  def badges
-      badges = params[:badges]
-        @user = User.find(params[:user_id])
-      #  @rel = current_user.badges(:u, :r).where( uuid: @user.uuid ).pluck(:r)
-      #  @badges = @rel.map {|b| b.badgeType}.uniq
-
-    @my_badges = []
-    if current_user.uuid != @user.uuid
-        current_user.rels(dir: :outgoing, type: :badges, between: @user).each do |r|
-        #current_user.badges(:u, :r).where( uuid: @user.uuid ).each_with_rel do |u, r| 
-        @my_badges << r[:badgeType]
-      end
-
-    create_destroy_badges(@my_badges, 'hot', params[:hot], @user)
-    create_destroy_badges(@my_badges, 'smart', params[:smart], @user)
-    create_destroy_badges(@my_badges, 'macho', params[:macho], @user)
-    create_destroy_badges(@my_badges, 'moody', params[:moody], @user)
-    create_destroy_badges(@my_badges, 'kind', params[:kind], @user)
-    create_destroy_badges(@my_badges, 'stingy', params[:stingy], @user)
-
-    @badges_count = @user.getBadges.where(status: true).count
-
-    @uniq_badges = @user.rels(dir: :incoming, type: :badges).each.map {|r| r.badgeType}.uniq
-    @all_badges = {}
-    @uniq_badges.each do |badge|
-      @all_badges[badge] = @user.rels(dir: :incoming, type: :badges).each.select{|r| r.badgeType == badge }.count
-    end
-
-    end
-
-  end
 
   def update_status
     @user = current_user
@@ -515,14 +437,4 @@ autocomplete :location, :address, :full => true
     @results = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:likes]->(friend),(friend)<-[rel]-(node)").where(" NOT  rel._classname = 'Visit'  AND NOT rel._classname = 'My_testimonial' ").order("rel.updated_at DESC").skip((8) * params[:page].to_i-8).limit(8).pluck(:friend, :rel, :node)
   end
 
-  def map_delete
-    @user = User.find(params[:id])
-    @location = Location.find_by(place_id: params[:map_place_id])
-    if @location.rels(type: :places).count > 1
-      @user.rels(type: :places, between: @location)[0].destroy
-    else
-      @location.destroy
-    end
-
-  end
 end

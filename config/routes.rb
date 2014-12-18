@@ -15,6 +15,12 @@ Rails.application.routes.draw do
   resources :interests, only: [:create, :destroy, :update]
   resources :my_locations, only: [:create, :destroy, :update],controller: 'locations'
   resources :my_badges, only: [:create, :destroy, :update, :like],controller: 'badges'
+  resources :pictures do
+    collection do
+      get :new_upload_form, :pics_edit, :set_default_pic, :set_visible_pic
+    end
+  end
+
 
   resources :my_badges do
     member do

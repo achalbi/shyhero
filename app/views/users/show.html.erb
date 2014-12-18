@@ -105,7 +105,7 @@
                                   <!--/ panel heading/header -->
                                   <hr class="nm"><!-- horizontal line -->
                                    <div class="images_div" href="#">
-                                    <%= render 'users/pics_grid' %>
+                                    <%= render 'pictures/pics_grid' %>
                                   </div>
                                   
                               </div>
@@ -267,7 +267,7 @@
 <div class="dis-none-imp">
   <% unless @pictures.nil? %>
       <% @pictures.each do |pic| %>
-        <a href="<%= cloudinary_url(pic, :crop => :fill) %>" class="btn btn-default profile_pics" title="view picture">1</a>
+        <a href="<%= cloudinary_url(picture.pic, :crop => :fill) %>" class="btn btn-default profile_pics" title="view picture">1</a>
       <% end %>
   <% end %>
 </div>
