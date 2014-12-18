@@ -86,7 +86,7 @@
                                       </div>
                                       <div class="panel-body pt0  hidden-md hidden-lg">
                                           <p class="semibold mb5 icon-black">
-                                            <a href="#"  class="icon-black"><%= current_user.about_me %></a>
+                                            <a href="#"  class="icon-black"><%= @user.about_me %></a>
                                           </p>
                                           
                                       </div>
@@ -264,48 +264,6 @@
                        </div>
                   <!--/row-->
 
-<div class="dis-none-imp">
-  <% unless @pictures.nil? %>
-      <% @pictures.each do |pic| %>
-        <a href="<%= cloudinary_url(picture.pic, :crop => :fill) %>" class="btn btn-default profile_pics" title="view picture">1</a>
-      <% end %>
-  <% end %>
-</div>
-
-<!-- badges modal-->
-<%= form_for([:badges, current_user] , remote: true)  do %>
-<div id="badges_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-  <div class="modal-content">
-      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      Give badges
-      </div>
-      <div class="modal-body">
-          <!-- <form class="form center-block"> -->
-          <%= hidden_field_tag "user_id", "#{@user.uuid}"  %>
-          <div class="form-group">
-            <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= check_box_tag 'hot', true , @my_badges.include?('hot')  %> Hot</h5>
-              <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= check_box_tag 'smart', true , @my_badges.include?('smart') %> Smart</h5>
-              <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= check_box_tag 'macho', true , @my_badges.include?('macho') %> Macho</h5>
-              <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= check_box_tag 'moody', true , @my_badges.include?('moody') %> Moody</h5>
-              <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= check_box_tag 'kind', true , @my_badges.include?('kind') %> Kind</h5>
-              <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= check_box_tag 'stingy', true , @my_badges.include?('stingy') %> Stingy</h5>
-
-            </div>
-          <!-- </form> -->
-      </div>
-      <div class="modal-footer">
-          <div>
-          <%= submit_tag "Save", class: "btn btn-primary btn-sm", 'aria-hidden'=>"true", id: "badges_submit" %> 
-          
-          </div>  
-      </div>
-  </div>
-</div>
-</div>
-<% end %>
-
 
 <!--Testimonial modal-->
 <%= form_for([:add_testimonial, @user] , remote: true)  do %>
@@ -336,11 +294,7 @@
 
 
 <script>
-      $("[data-toggle~=unveil]").unveil(200, function () {
-                    $(this).load(function () {
-                        $(this).addClass("unveiled");
-                    });
-                });
+
 
         $(".like").click(function(){
           if ($(this).children("i").hasClass( "icon-red" )) {
