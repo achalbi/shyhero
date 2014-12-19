@@ -41,13 +41,13 @@ autocomplete :location, :address, :full => true
        #@user.pictures = nil
        #@user.visible_pictures = nil
        #@user.save!
-    unless profile_pics.empty?
-      profile_pics.each do |pic_id|
+   # unless profile_pics.empty?
+   #   profile_pics.each do |pic_id|
        # picture =  Cloudinary::Uploader.upload(@graph.get_object(pic_id)["source"])["public_id"]
        # @pics << picture
        # @v_pics << picture
-      end
-    end
+    #  end
+    # end
 
     #    @friends = @graph.get_connections("me", "friends")
     #    @user.friends_list = @friends
