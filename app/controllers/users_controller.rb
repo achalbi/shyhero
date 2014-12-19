@@ -48,15 +48,13 @@ autocomplete :location, :address, :full => true
        # @v_pics << picture
       end
     end
-    @user.pictures =  @pics
-    @user.visible_pictures =  @v_pics
 
-    @friends = @graph.get_connections("me", "friends")
-    @user.friends_list = @friends
-    @user.save!
-    
-    create_fb_friends(@user.uid, @friends)
-    sign_in @user
+    #    @friends = @graph.get_connections("me", "friends")
+    #    @user.friends_list = @friends
+    #    @user.save!
+        
+    #    create_fb_friends(@user.uid, @friends)
+    #    sign_in @user
     redirect_to root_path
   end
 
