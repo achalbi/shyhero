@@ -13,36 +13,34 @@ autocomplete :location, :address, :full => true
     #UserMailer.welcome_email(user).deliver
     end
     
-    unless  @user.username.present? 
-      @user = update_with_omniauth(@user, oauth)
-    end
-    
-    @user.fb_access_token = oauth['credentials']['token']
+    #@user.fb_access_token = oauth['credentials']['token']
     session['fb_access_token'] = oauth['credentials']['token']
     session['fb_error'] = nil
-    @user.save!
+   # @user.save!
     sign_in @user
     
     
-    @graph = Koala::Facebook::API.new(@user.fb_access_token)
+    @graph = Koala::Facebook::API.new(session["fb_access_token"])
     
     if @user.default_pic.nil?
-      @user.pictures =  [] if @user.pictures.nil?
-      @user.visible_pictures = [] if @user.visible_pictures.nil?
+      #@user.pictures =  [] if @user.pictures.nil?
+      #@user.visible_pictures = [] if @user.visible_pictures.nil?
       @user.default_pic =  Cloudinary::Uploader.upload(@graph.get_picture(@user.uid,:type => "square", height: 400 , width: 400))["public_id"]
-      default_pic = @user.default_pic
-      @user.pictures << default_pic
-      @user.visible_pictures << default_pic
+      @picture = Picture.create(pic: @user.default_pic, visible: true)
+      MyPicture.create(from_node: @user, to_node: @picture)
+      #default_pic = @user.default_pic
+      #@user.pictures << default_pic
+      #@user.visible_pictures << default_pic
+      @user.save!
     end
     
-    @user.save!
-    @pics = @user.pictures.nil? ? [] : @user.pictures
-    @v_pics = @user.visible_pictures.nil? ? [] : @user.visible_pictures
+       #@pics = @user.pictures.nil? ? [] : @user.pictures
+       #@v_pics = @user.visible_pictures.nil? ? [] : @user.visible_pictures
 
     
-       @user.pictures = nil
-       @user.visible_pictures = nil
-       @user.save!
+       #@user.pictures = nil
+       #@user.visible_pictures = nil
+       #@user.save!
     unless profile_pics.empty?
       profile_pics.each do |pic_id|
        # picture =  Cloudinary::Uploader.upload(@graph.get_object(pic_id)["source"])["public_id"]
@@ -118,7 +116,7 @@ autocomplete :location, :address, :full => true
      @badges = Neo4j::Session.query.match("(me { uuid: '#{@user.uuid}' })-[:getBadges]->(myBadge)").where("myBadge.status = true").pluck('DISTINCT myBadge.badgeType, count(myBadge.badgeType)')
      @badges_count = @user.getBadges.where(status: true).count
 
-    @pictures = @user.pictures
+    @pictures = @user.pictures.where(visible: true)
     @testimonials = @user.testimonials
 
     unless @user == current_user

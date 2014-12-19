@@ -4,7 +4,7 @@ def create
 	@picture = Picture.create(picture_params)
 	@user = current_user
 	@my_pictures = MyPicture.create(from_node: @user, to_node: @picture)
-	@pictures = @user.pictures.nil? ? []: @user.pictures
+	@pictures = @user.pictures.nil? ? []: @user.pictures.where(visible: true)
 end
 
 def destroy
@@ -39,6 +39,22 @@ end
     @picture.visible = params[:status] 
     @picture.save!
     head :ok
+  end
+
+  def import_fb_pictures
+    @user = current_user
+    @arr = facebook.get_connections("me","albums").map {|p| p["id"] if p["name"] == "Profile Pictures" }.compact
+    album_id = @arr[0]
+    photo_ids = facebook.get_connections(album_id, "photos").map {|p| p["id"]}
+    user_fb_pics = @user.pictures.map {|p| p.fb_id }.compact
+        photo_ids.each do |pic|
+          unless user_fb_pics.include?(pic)
+            up_pic =  Cloudinary::Uploader.upload(@graph.get_object(pic)["source"])["public_id"]
+            picture = Picture.create(pic: up_pic, visible: false, fb_id: pic)
+            MyPicture.create(from_node: @user, to_node: picture)
+          end
+        end
+    @pictures = current_user.pictures
   end
 
 private

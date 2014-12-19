@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   resources :my_badges, only: [:create, :destroy, :update, :like],controller: 'badges'
   resources :pictures do
     collection do
-      get :new_upload_form, :pics_edit, :set_default_pic, :set_visible_pic
+      get :new_upload_form, :pics_edit, :set_default_pic, :set_visible_pic, :import_fb_pictures
     end
   end
 

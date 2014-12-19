@@ -94,4 +94,6 @@ module SessionsHelper
     @photo_ids
   end
 
+
+
 end

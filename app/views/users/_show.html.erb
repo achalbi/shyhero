@@ -449,7 +449,8 @@
   <div class="modal-content">
       <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      Profile pictures (set visiblity / set default picture)
+      Profile pictures
+      <a href="/pictures/import_fb_pictures" class="ml50 btn btn-success ladda-button mb5" data-style="expand-right" id="import_fb_pics" data-remote="true" ><span class="ladda-label">Import profile pictures from Facebook</span></a>
       </div>
       <div class="modal-body" id="pics_modal_body">
               <div class="indicator"><span class="spinner" /></div>
@@ -624,4 +625,11 @@ $(".interest-btn").click(function(){
 $("#interest_submit_btn").click(function(e){
   $("#interest_submit_btn").addClass("disabled");
 })
+
+$("#import_fb_pics").click(function(e){
+  $("#import_fb_pics").addClass("disabled");
+})
+
+
+
 </script>

@@ -98,6 +98,10 @@
 	cursor: pointer;
 }
 
+.ml50 {
+  margin-left: 50px !important;
+}
+
 .ml100 {
   margin-left: 100px !important;
 }

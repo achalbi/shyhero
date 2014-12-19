@@ -5,7 +5,7 @@ class StaticPagesController < ApplicationController
   	unless @user.nil?
       session['user_id'] = @user.uuid
       session['user_gender'] = @user.gender
-  		@pictures = @user.pictures.nil? ? []: @user.pictures
+  		@pictures = @user.pictures.nil? ? []: @user.pictures.where(visible: true)
   		@testimonials = @user.testimonials
       @latitude = nil #'12.9715987'
       @longitude = nil #'77.5945627'

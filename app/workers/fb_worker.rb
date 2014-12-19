@@ -9,7 +9,7 @@ class FbWorker
 
 	 def perform(uid, f_uid, f_name)
         user = User.find_by(uid: uid)
-	 	facebook = Koala::Facebook::API.new(user.fb_access_token)
+	 	facebook = Koala::Facebook::API.new(session["fb_access_token"])
                 @new_user = User.find_by(uid: f_uid)
                 unless @new_user.present?
                   @new_user = User.new
