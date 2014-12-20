@@ -150,7 +150,7 @@
                               <div class="panel panel-default">
                                   <!-- panel heading/header -->
                                   <div class="panel-heading">
-                                      <h3 class="panel-title"><i class="ico-map-marker"></i> Location </h3>
+                                      <h3 class="panel-title"><i class="ico-map-marker"></i>  Common location </h3>
                                   </div>
                                   <!--/ panel heading/header -->
                                   
@@ -167,6 +167,45 @@
                                   <!--/ Loading indicator -->
                               </div>
                               <!--/ END panel -->
+
+                              <!-- START panel -->
+                              <div class="panel panel-default">
+                                  <!-- panel heading/header -->
+                                  <div class="panel-heading">
+                                      <h3 class="panel-title"><i class="ico-star"></i> Interests</h3>
+                                      <!-- panel toolbar -->
+                                      <div class="panel-toolbar text-right">
+                                          <!-- option -->
+                                              
+                                          <div class="option">
+                                                <a  href="#interest_modal" role="button" data-toggle="modal" class="btn demo a-color-inherit" id="address_link">
+                                                  <i class="ico-plus-circle"></i>
+                                                </a>              
+                                          </div>
+                                          <!--/ option -->
+                                      </div>
+                                      <!--/ panel toolbar -->
+                                  </div>
+                                  <!--/ panel heading/header -->
+                                  
+                                  <!-- panel body with collapse capable -->
+                                  <div class="panel-collapse pull out">
+                                      <div class="panel-body pb0" id="interests_block">
+                                        <% if @interests_count > 0 %>
+                                          <%= render partial: 'interests/interest' %>
+                                        <% else %>
+                                          <h5>No interests added</h5>
+                                        <% end %>
+                                      </div>
+                                  </div>
+                                  <!--/ panel body with collapse capabale -->
+
+                                  <!-- Loading indicator -->
+                                  <div class="indicator"><span class="spinner"></span></div>
+                                  <!--/ Loading indicator -->
+                              </div>
+                              <!--/ END panel -->
+
 
                               <!-- START panel -->
                               <div class="panel panel-default">

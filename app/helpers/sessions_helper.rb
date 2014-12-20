@@ -59,7 +59,7 @@ module SessionsHelper
 
 
   def facebook
-    @graph = Koala::Facebook::API.new(session['fb_access_token'])
+    @graph = Koala::Facebook::API.new(session['fb_access_token'].nil? ? current_user.fb_access_token : session['fb_access_token'])
   end
 
   def fb_friends

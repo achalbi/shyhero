@@ -133,7 +133,16 @@ autocomplete :location, :address, :full => true
     unless @user.uuid == current_user.uuid
       @like = current_user.rels(dir: :outgoing, type: :likes, between: @user).blank? ? true : false
     end
+    unless @user.uuid == current_user.uuid
+      place_ids = current_user.places.map { |p| p.place_id }
+      @locations = @user.places.where(place_id: place_ids)
+    else
+      @locations = @user.places
+    end
     @likes_count = @user.rels(dir: :incoming, type: "likes").count
+
+    @interests = @user.userInterests
+    @interests_count = @interests.count
 
     # ip_loc = Geocoder.search(remote_ip)[0]
 
@@ -245,10 +254,10 @@ autocomplete :location, :address, :full => true
     unless  current_user.rels(type: :likes, between: @user).blank?
       rel = current_user.rels(type: :likes, between: @user)
       rel[0].destroy
-      current_user.save!
+     # current_user.save!
     else
       current_user.likes << @user
-      current_user.save!
+    #  current_user.save!
     end
     @likes_count = @user.rels(dir: :incoming, type: "likes").count
     #, :content_type => 'text/html'
