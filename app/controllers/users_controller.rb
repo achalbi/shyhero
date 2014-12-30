@@ -251,8 +251,8 @@ autocomplete :location, :address, :full => true
 
   def likes
     @user = User.find(params[:id])
-    unless  current_user.rels(type: :likes, between: @user).blank?
-      rel = current_user.rels(type: :likes, between: @user)
+    unless  current_user.rels(dir: :outgoing,type: :likes, between: @user).blank?
+      rel = current_user.rels(dir: :outgoing,type: :likes, between: @user)
       rel[0].destroy
      # current_user.save!
     else
@@ -440,6 +440,53 @@ autocomplete :location, :address, :full => true
 
   def timeline_page
     @results = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' })-[:likes]->(friend),(friend)<-[rel]-(node)").where(" NOT  rel._classname = 'Visit'  AND NOT rel._classname = 'My_testimonial' ").order("rel.updated_at DESC").skip((8) * params[:page].to_i-8).limit(8).pluck(:friend, :rel, :node)
+  end
+
+  def new_people_around
+    @friends = []
+     place_ids = current_user.places.map { |p| p.place_id }
+    
+    unless current_user.gender == 'male'
+      @users = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (n:User), (n)-[:places]->(l)").where(" NOT  (me)-[:views]->(n) ").where(l: {place_id: place_ids}).where( 'n.gender <> "female"').limit(3).pluck(:n)
+    else
+      @users = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (n:User), (n)-[:places]->(l)").where(" NOT  (me)-[:views]->(n) ").where(l: {place_id: place_ids}).where( 'n.gender <> "male"').limit(3).pluck(:n)
+    end
+    @friends = @users
+  end
+
+  def page_new_people_around
+    @friends = []
+
+    if params[:viewed].blank?
+      return
+    end
+    viewed_users = []
+    viewed_users = User.all.where(uuid: params[:viewed].split(","))
+
+    viewed_users.each do |user|
+      View.create!(from_node: current_user, to_node: user)
+    end
+
+    place_ids = current_user.places.map { |p| p.place_id }
+    
+    unless current_user.gender == 'male'
+      @users = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (n:User), (n)-[:places]->(l)").where(" NOT  (me)-[:View]->(n) ").where(l: {place_id: place_ids}).where( 'n.gender <> "female"').skip((3) * params[:page].to_i-3).limit(3).pluck(:n)
+    else
+      @users = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (n:User), (n)-[:places]->(l)").where(" NOT  (me)-[:View]->(n) ").where(l: {place_id: place_ids}).where( 'n.gender <> "male"').skip((3) * params[:page].to_i-3).limit(3).pluck(:n)
+    end
+    @friends = @users
+  end
+
+  def crush
+    @user = User.find(params[:id])
+    if params[:crush] == 'yes'
+      Crush.create!(from_node: current_user, to_node: @user)
+      if @user.rels(dir: :outgoing, type: :crush, between: current_user).blank? ? true : false
+        
+      end
+    else
+      current_user.rels(dir: :outgoing, type: :crush, between: @user)[0].destroy
+    end
   end
 
 end

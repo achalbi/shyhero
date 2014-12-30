@@ -38,7 +38,8 @@ end
   	@picture = Picture.find_by(pic: params[:visible_pic])
     @picture.visible = params[:status] 
     @picture.save!
-    head :ok
+	@user = current_user
+    @pictures = @user.pictures.nil? ? []: @user.pictures.where(visible: true)
   end
 
   def import_fb_pictures

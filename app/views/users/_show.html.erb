@@ -38,7 +38,7 @@
                                     <li>
                                         <div class="section">
                                             <h4 class="nm">
-                                              <i class="ico-heart-empty icon-red img-responsive center_block icon-font-40"></i>
+                                              <i class="ico-heart-empty icon-red img-responsive center_block icon-font-35"></i>
                                             </h4>
                                             <h4 class="nm mt5"><%= current_user.rels(dir: :incoming, type: "likes").count %></h4>
                                         </div>
@@ -46,7 +46,8 @@
                                     <li>
                                         <div class="section">
                                             <h4 class="nm">
-                                              <i class="ico-medal2 icon-gold img-responsive center_block icon-font-40"></i>
+                                              <i class="flaticon-medal3 
+ icon-gold img-responsive center_block icon-font-40"></i>
                                             </h4>
                                             <h4 class="nm mt5"><%= current_user.getBadges.where(status: true).count %></h4>
                                         </div>
@@ -54,7 +55,7 @@
                                     <li>
                                         <div class="section">
                                             <h4 class="nm">
-                                              <i class="ico-quill2 icon-blue img-responsive center_block icon-font-40"></i></h4>
+                                              <i class="flaticon-pen19 icon-blue img-responsive center_block icon-font-40"></i></h4>
                                             <h4 class="nm mt5"><%= @testimonials.nil? ? 0 : @testimonials.count %></h4>
                                         </div>
                                     </li>

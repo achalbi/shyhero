@@ -34,11 +34,11 @@ Rails.application.routes.draw do
 
   resources :users do
     collection do
-      get :friends, :page_friends, :autocomplete_location_address, :page_search_criteria, :like_list, :page_like_list
+      get :friends, :page_friends, :autocomplete_location_address, :page_search_criteria, :like_list, :page_like_list, :new_people_around, :page_new_people_around
     end
     member do
       patch :add_location, :badges, :add_testimonial, :add_picture, :map_delete
-      get :search_criteria, :likes, :pics_edit, :set_default_pic, :set_visible_pic, :likes_testimonial, :delete_testimonial, :timeline
+      get :search_criteria, :likes, :pics_edit, :set_default_pic, :set_visible_pic, :likes_testimonial, :delete_testimonial, :timeline, :crush
       post :update_status, :update_about_me
     end
   end

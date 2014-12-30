@@ -102,6 +102,8 @@ group :development do
   gem 'pry-rails'
   gem 'pry-stack_explorer'
   gem 'pry-byebug'
+  gem 'faker'
+
 
   gem 'foreman'
  # gem 'rspec-rails' 

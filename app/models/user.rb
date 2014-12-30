@@ -39,6 +39,7 @@ class User
   has_many :both, :friend_boys,  model_class: User,  rel_class: Friend_boy
   has_many :out, :places,  model_class: MyLocation,  rel_class: Place
   has_many :out, :likes, model_class: User,  rel_class: Like
+  has_many :out, :crush, model_class: User,  rel_class: Crush
   #has_many :both, :badges, model_class: User,  rel_class: Badge
   has_many :out, :write_testimonials, model_class: Testimonial,  rel_class: Write_testimonial
   has_many :out, :likes_testimonial, model_class: Testimonial,  rel_class: Like_testimonial
@@ -47,6 +48,7 @@ class User
   has_many :out, :userInterests,  model_class: Interest,  rel_class: MyInterest
   #has_one :out, :default_pics,  model_class: Picture,  rel_class: Profile
   has_many :out, :visits,  model_class: User,  rel_class: Visit
+  has_many :out, :views,  model_class: User,  rel_class: View
   has_many :out, :add_pic,  model_class: User,  rel_class: Add_pic
   has_many :out, :add_status,  model_class: User,  rel_class: Add_status
   has_many :out, :giveBadges,  model_class: MyBadge,  rel_class: GiveBadge

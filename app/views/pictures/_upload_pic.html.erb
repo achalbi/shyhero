@@ -47,6 +47,7 @@ $('.upload_form').append($.cloudinary.unsigned_upload_tag("shyhero",
         crop: 'fill', gravity: 'faces', effect: 'saturation:50' } ));
     $('#picture_pic').val(data.result.public_id);
     $('#picture_submit').removeClass("disabled");
+    $('.progress').parent().addClass('dis-none-imp');
     $('.progress').parent().append('<h3 class="text-center">Upload completed</h3>');
   }).bind('fileuploadsend', function(e, data) {
     $('.progress').parent().removeClass('dis-none-imp');
