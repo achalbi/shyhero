@@ -14,6 +14,7 @@ class User
   property :status, :type => String
   property :about_me, :type => String
   property :default_pic, :type => String
+  property :godate, :type => Boolean, default: false
 
   scope :gender_filter, ->(g){ where(gender: g)}
 

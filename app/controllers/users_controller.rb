@@ -480,12 +480,37 @@ autocomplete :location, :address, :full => true
   def crush
     @user = User.find(params[:id])
     if params[:crush] == 'yes'
-      Crush.create!(from_node: current_user, to_node: @user)
       if @user.rels(dir: :outgoing, type: :crush, between: current_user).blank? ? true : false
-        
+      Crush.create!(from_node: current_user, to_node: @user)
       end
     else
       current_user.rels(dir: :outgoing, type: :crush, between: @user)[0].destroy
+    end
+  end
+
+  def crush_list
+    @friends = current_user.crush
+  end
+
+  def set_godate
+     @user = User.find(params[:id])
+     if params[:godate] == 'yes'
+        @user.godate = true
+        @user.save!
+      else
+         @user.godate = false
+        @user.save!
+      end
+  end
+
+  def godate
+    @user = User.find(params[:id])
+    if params[:godate] == 'yes'
+      if @user.rels(dir: :outgoing, type: :godate, between: current_user).blank? ? true : false
+      GoDate.create!(from_node: current_user, to_node: @user)
+      end
+    else
+      current_user.rels(dir: :outgoing, type: :godate, between: @user)[0].destroy
     end
   end
 

@@ -94,9 +94,13 @@ module SessionsHelper
     @photo_ids
   end
 
-  def mutual_like(user)
-    if ((current_user.rels(dir: :outgoing, type: :likes, between: user).blank? ? false : true) && (user.rels(dir: :outgoing, type: :likes, between: current_user).blank? ? false : true))
-      return true
+  def mutual_crushlike(user)
+    unless current_user.gender == user.gender
+      if ((current_user.rels(dir: :outgoing, type: :likes, between: user).blank? ? false : true) && (user.rels(dir: :outgoing, type: :likes, between: current_user).blank? ? false : true))
+        return true
+      else
+        return false
+      end
     else
       return false
     end
