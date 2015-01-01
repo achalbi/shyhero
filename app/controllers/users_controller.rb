@@ -480,7 +480,7 @@ autocomplete :location, :address, :full => true
   def crush
     @user = User.find(params[:id])
     if params[:crush] == 'yes'
-      if @user.rels(dir: :outgoing, type: :crush, between: current_user).blank? ? true : false
+      if current_user.rels(dir: :outgoing, type: :crush, between: @user).blank? ? true : false
       Crush.create!(from_node: current_user, to_node: @user)
       end
     else
