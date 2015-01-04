@@ -114,5 +114,24 @@ module SessionsHelper
     end
   end
 
+  def date_interested
+     Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (u:User), (me)<-[:godate]-(u), (me)-[:godate]->(u)").pluck(:u)
+  end
+
+  def date_received
+     Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (u:User), (me)<-[g:godate]-(u)").pluck(:u) - date_interested
+  end
+
+  def date_sent
+     Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (u:User), (me)-[g:godate]->(u)").pluck(:u) - date_interested
+  end
+
+  def expressed_interest(user)
+     Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (u { uuid: '#{user.uuid}' }), (me)-[g:godate]->(u)").pluck(:g)
+  end
+
+  def date_interested_both(user)
+     Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (u { uuid: '#{user.uuid}' }), (me)<-[g:godate]->(u)").pluck(:g)
+  end
 
 end

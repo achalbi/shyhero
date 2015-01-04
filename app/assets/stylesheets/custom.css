@@ -306,3 +306,8 @@ padding-right: 15px!important;
 .text-grey{
   color: #A2A2A2;
 }
+
+.panel-ovrd-bottom-trnp{
+  border-color: transparent!important;
+  border-bottom-color: transparent!important;
+}

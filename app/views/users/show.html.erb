@@ -254,14 +254,9 @@
                           <div class="panel-toolbar-wrapper " id="crush_div" >
                               <%= render 'users/crush' %>
                           </div>
-                          <% if mutual_crushlike(@user) || @user.godate? %>
+                          <% if mutual_crushlike(@user) || @user.godate_status? %>
                            <div class="panel-toolbar-wrapper " id="date_div" >
-                              <div class="panel-toolbar">
-                                <h5 class="nm icon-black-lite"><i class="flaticon-couple8 mr5 font-20"></i><span class="semibold">Intrested in dating me?</span> </h5>
-                              </div>
-                              <div class="panel-body pt0 text-center">
-                                 <a href="/users/<%= @user.uuid %>/godate?date=yes" class="btn btn-success mb5" data-remote="true" >Yes</a>
-                            </div>
+                              <%= render 'users/express_date' %>
                           </div>
                           <% end %>
                           <% unless @user.about_me.blank? %>

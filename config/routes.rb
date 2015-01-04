@@ -34,7 +34,7 @@ Rails.application.routes.draw do
 
   resources :users do
     collection do
-      get :friends, :page_friends, :autocomplete_location_address, :page_search_criteria, :like_list, :page_like_list, :new_people_around, :page_new_people_around,:crush_list
+      get :friends, :page_friends, :autocomplete_location_address, :page_search_criteria, :like_list, :page_like_list, :new_people_around, :page_new_people_around,:crush_list, :date_list, :page_date_list
     end
     member do
       patch :add_location, :badges, :add_testimonial, :add_picture, :map_delete

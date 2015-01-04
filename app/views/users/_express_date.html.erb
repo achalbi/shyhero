@@ -1,0 +1,27 @@
+<% if expressed_interest(@user).blank? %>
+<div class="panel-toolbar">
+	<h5 class="nm icon-black-lite"><i class="flaticon-couple8 mr5 font-20"></i><span class="semibold">Intrested in dating me?</span> </h5>
+</div>
+<div class="panel-body pt0 text-center">
+	<a href="/users/<%= @user.uuid %>/godate?godate=yes" class="btn btn-success mb5" data-remote="true" >Yes</a>
+</div>
+<% else %>
+	<% if date_interested_both(@user).blank? %>
+		<div class="panel-toolbar">
+			<h5 class="nm icon-black-lite"><i class="flaticon-couple8 mr5 font-20"></i><span class="semibold">Do you want to revoke your interest expression?</span> </h5>
+		</div>
+		<br>
+		<div class="panel-body pt0 text-center">
+			<a href="/users/<%= @user.uuid %>/godate?godate=no" class="btn btn-success mb5" data-remote="true" >Revoke</a>
+		</div>
+	<% else %>
+		<div class="panel-toolbar">
+			<h4 class="semibold nm text-danger"><i class="ico-heart mr5"></i>You both are interested to date eachother</h4><br>
+			<h5 class="nm icon-black-lite"><i class="flaticon-couple8 mr5 font-20"></i><span class="semibold">Do you like to chat?</span> </h5>
+		</div>
+		<br>
+		<div class="panel-body pt0 text-center">
+			<a href="#" class="btn btn-success mb5" data-remote="true" >Chat</a>
+		</div>
+	<% end %>
+<% end %>

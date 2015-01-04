@@ -492,13 +492,36 @@ autocomplete :location, :address, :full => true
     @friends = current_user.crush
   end
 
+  def date_list
+    place_ids = current_user.places.map { |p| p.place_id }
+    
+    unless current_user.gender == 'male'
+      @users = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (n:User), (n)-[:places]->(l)").where(n: {godate_status: true}).where(l: {place_id: place_ids}).where( 'n.gender <> "female"').limit(3).pluck(:n)
+    else
+      @users = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (n:User), (n)-[:places]->(l)").where(n: {godate_status: true}).where(l: {place_id: place_ids}).where( 'n.gender <> "male"').limit(3).pluck(:n)
+    end
+    @friends = @users
+  end
+
+  def page_date_list
+    place_ids = current_user.places.map { |p| p.place_id }
+    
+    unless current_user.gender == 'male'
+      @users = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (n:User), (n)-[:places]->(l)").where(n: {godate_status: true}).where(l: {place_id: place_ids}).where( 'n.gender <> "female"').skip((3) * params[:page].to_i-3).limit(3).pluck(:n)
+    else
+      @users = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (n:User), (n)-[:places]->(l)").where(n: {godate_status: true}).where(l: {place_id: place_ids}).where( 'n.gender <> "male"').skip((3) * params[:page].to_i-3).limit(3).pluck(:n)
+    end
+    @friends = @users
+  end
+
+
   def set_godate
      @user = User.find(params[:id])
      if params[:godate] == 'yes'
-        @user.godate = true
+        @user.godate_status = true
         @user.save!
       else
-         @user.godate = false
+         @user.godate_status = false
         @user.save!
       end
   end
@@ -506,8 +529,8 @@ autocomplete :location, :address, :full => true
   def godate
     @user = User.find(params[:id])
     if params[:godate] == 'yes'
-      if @user.rels(dir: :outgoing, type: :godate, between: current_user).blank? ? true : false
-      GoDate.create!(from_node: current_user, to_node: @user)
+      if current_user.rels(dir: :outgoing, type: :godate, between: @user).blank?
+        GoDate.create!(from_node: current_user, to_node: @user)
       end
     else
       current_user.rels(dir: :outgoing, type: :godate, between: @user)[0].destroy
