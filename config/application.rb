@@ -32,6 +32,7 @@ module Likeplus
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     #config.time_zone = 'New Delhi'
 
+    config.middleware.use Rack::Deflater
     config.neo4j.session_type = :server_db
     config.neo4j.session_path = ENV['GRAPHENEDB_URL'] || 'http://localhost:7474'
     #config.neo4j.session_path = 'http://youthilu:TOnO9b09UIJlLkmzoa0Y@youthilu.sb02.stations.graphenedb.com:24789' || 'http://localhost:7474'
