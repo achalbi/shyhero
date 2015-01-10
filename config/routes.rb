@@ -43,6 +43,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :conversations , only: [:show] do
+    resources :messages, only: [:create]
+  end
+
   mount Sidekiq::Web, at: '/sidekiq'
 
   # The priority is based upon order of creation: first created -> highest priority.

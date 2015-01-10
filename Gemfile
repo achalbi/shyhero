@@ -86,6 +86,7 @@ gem 'google_places'
 #gem 'carrierwave'
 gem 'cloudinary'
 #gem 'mini_magick', '3.5.0'
+gem 'private_pub'
 
 group :production do
   gem 'rails_12factor'

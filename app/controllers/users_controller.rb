@@ -92,6 +92,7 @@ autocomplete :location, :address, :full => true
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
+    session['user_name'] = @user.name
     session['user_id'] = params[:id]
     session['user_gender'] = @user.gender
     unless @user.uuid == current_user.uuid

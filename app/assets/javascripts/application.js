@@ -26,6 +26,8 @@
 //= require ./core
 //= require ../plugins/sparkline/js/jquery.sparkline.min
 //= require ./app
+//= require ./chat
+//= require ./users
 //= require ../plugins/xeditable/js/bootstrap-editable.min
 //= require ../plugins/xeditable/inputs-ext/typeaheadjs/lib/typeahead
 //= require ../plugins/xeditable/inputs-ext/typeaheadjs/typeaheadjs
@@ -40,6 +42,7 @@
 //  ../plugins/gmaps/.
 //  ./maps/.
 
+// require private_pub
 // require ../plugins/flot/jquery.flot.min
 // require_tree ../plugins/flot/.
 // ../plugins/magnific/js/jquery.magnific-popup.min
