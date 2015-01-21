@@ -12,8 +12,8 @@ def create
      @myLocation = MyLocation.create(my_location_params)
      @place_rel =  Place.create(from_node: @user, to_node: @myLocation)
 	   @loc_rel =  LocationMaster.create(from_node: @myLocation, to_node: @location)
+	   @locations = @user.places
 =begin
-	@locations = @user.places
 =end
 
 end
@@ -23,6 +23,7 @@ def destroy
       current_user.rels(type: :places, between: @location)[0].destroy
       @location.rels(dir: :outgoing, type: "location_details")[0].destroy
       @location.destroy
+      @locations = @user.places
 end
 
 def update
@@ -33,11 +34,11 @@ end
 private
 
 def my_location_params
-   params.require(:my_location).permit(:address, :name, :place_id, :id_loc, :latitude, :longitude, :place_type, :details, :current_place)
+   params.require(:my_location).permit(:address, :name, :place_id, :id_loc, :latitude, :longitude, :place_type, :details, :current_place, :city, :country)
 end
 
 def location_params
-   params.require(:my_location).permit(:address, :name, :place_id, :id_loc, :latitude, :longitude)
+   params.require(:my_location).permit(:address, :name, :place_id, :id_loc, :latitude, :longitude, :city, :country)
 end
 
 end

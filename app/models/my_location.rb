@@ -2,10 +2,12 @@ class MyLocation
   include Neo4j::ActiveNode
 
   	property :place_type, :type => String
-	property :details, :type => String
+	  property :details, :type => String
   	property :current_place, :type => Boolean
   	property :address, :type => String, :index => :exact
   	property :name, :type => String, :index => :exact
+    property :city, :type => String, :index => :exact
+    property :country, :type => String, :index => :exact
   	property :place_id, :type => String, :index => :exact
   	property :id_loc, :type => String, :index => :exact
   	property :latitude, :type => Float, :index => :exact

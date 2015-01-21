@@ -1,11 +1,13 @@
 class UsersController < ApplicationController
 autocomplete :location, :address, :full => true
 
+before_filter :signed_in_user, except: :login 
+
   def login
     oauth = request.env["omniauth.auth"]
-    @user = User.find_by(uid: oauth['uid'])
+    #@user = User.find_by(uid: oauth['uid'])
+    @user = User.find_by(email: oauth['info']['email'])
     #session['fb_auth'] = oauth
-
     
     if  @user.nil?
       @user = User.create_with_omniauth(oauth)
@@ -449,8 +451,14 @@ autocomplete :location, :address, :full => true
     
     unless current_user.gender == 'male'
       @users = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (n:User), (n)-[:places]->(l)").where(" NOT  (me)-[:views]->(n) ").where(l: {place_id: place_ids}).where( 'n.gender <> "female"').limit(3).pluck(:n)
+      if @users.count == 0
+          @users = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (n:User), (n)-[:places]->(l), (me)-[v:views]->(n)").where(l: {place_id: place_ids}).where( 'n.gender <> "female"').order('n.count desc').limit(3).pluck(:n)
+      end
     else
       @users = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (n:User), (n)-[:places]->(l)").where(" NOT  (me)-[:views]->(n) ").where(l: {place_id: place_ids}).where( 'n.gender <> "male"').limit(3).pluck(:n)
+      if @users.count == 0
+          @users = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (n:User), (n)-[:places]->(l), (me)-[v:views]->(n)").where(l: {place_id: place_ids}).where( 'n.gender <> "male"').order('n.count desc').limit(3).pluck(:n)
+      end
     end
     @friends = @users
   end
@@ -465,15 +473,27 @@ autocomplete :location, :address, :full => true
     viewed_users = User.all.where(uuid: params[:viewed].split(","))
 
     viewed_users.each do |user|
-      View.create!(from_node: current_user, to_node: user)
+      rel = current_user.rels(type: :views, between: user)
+      unless rel.blank? 
+        rel[0].count += 1
+        rel[0].save
+      else
+        View.create!(from_node: current_user, to_node: user)
+      end
     end
 
     place_ids = current_user.places.map { |p| p.place_id }
     
     unless current_user.gender == 'male'
       @users = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (n:User), (n)-[:places]->(l)").where(" NOT  (me)-[:View]->(n) ").where(l: {place_id: place_ids}).where( 'n.gender <> "female"').skip((3) * params[:page].to_i-3).limit(3).pluck(:n)
+      if @users.count == 0
+          @users = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (n:User), (n)-[:places]->(l), (me)-[v:views]->(n)").where(l: {place_id: place_ids}).where( 'n.gender <> "female"').order('n.count desc').skip((3) * params[:page].to_i-3).limit(3).pluck(:n)
+      end
     else
       @users = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (n:User), (n)-[:places]->(l)").where(" NOT  (me)-[:View]->(n) ").where(l: {place_id: place_ids}).where( 'n.gender <> "male"').skip((3) * params[:page].to_i-3).limit(3).pluck(:n)
+      if @users.count == 0
+          @users = Neo4j::Session.query.match("(me { uuid: '#{current_user.uuid}' }), (n:User), (n)-[:places]->(l), (me)-[v:views]->(n)").where(l: {place_id: place_ids}).where( 'n.gender <> "male"').order('n.count desc').skip((3) * params[:page].to_i-3).limit(3).pluck(:n)
+      end
     end
     @friends = @users
   end

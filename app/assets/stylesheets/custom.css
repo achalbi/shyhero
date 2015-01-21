@@ -78,6 +78,20 @@
 	margin: 0px 0px !important;
 }
 
+.mt7{
+  margin-top: 7px;
+}
+
+.ml7{
+  margin-left: 7px;
+}
+.mr7{
+  margin-right: 7px;
+}
+.mb7{
+  margin-bottom: 7px;
+}
+
 .m10-p10{
 	padding: 0px 10px 0px 10px !important;
 	margin: 0px 10px 0px 10px !important;
@@ -310,4 +324,16 @@ padding-right: 15px!important;
 .panel-ovrd-bottom-trnp{
   border-color: transparent!important;
   border-bottom-color: transparent!important;
+}
+
+.spinner_simple{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -9px;
+  margin-left: -9px;
+  width: 18px;
+  height: 18px;
+  background-image: url("/assets/loading/spinner.gif");
+  background-repeat: no-repeat;
 }

@@ -3,7 +3,7 @@
                
               </div>
               <h4 class="text-center col-xs-12 col-s-12 col-md-12 col-lg-12">
-                 <div id="loading_page" class="center_block active_hide loading_page" ><img src="/assets/loading.gif">
+                 <div id="loading_page" class="center_block active_hide loading_page" ><span class="spinner_simple"></span>
                  </div>
               </h4>
           
@@ -55,7 +55,7 @@ function pageHeight() {
   return Math.max(document.body.scrollHeight, document.body.offsetHeight);
 }
  
-$('document').ready(function(){
   intervalID = setInterval(checkScroll_friends, 500);
+$('document').ready(function(){
 });
 </script>

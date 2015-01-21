@@ -54,7 +54,7 @@
                                     <li>
                                         <div class="section">
                                             <h4 class="nm">
-                                              <img src="/assets/icons/like-red-lite.png" alt="" class="img-responsive center_block">
+                                              <i class="flaticon-add185 icon-red img-responsive center_block icon-font-30"></i>
                                             </h4>
                                             <h4 class="nm mt5 likes_count"><%= @likes_count %></h4>
                                         </div>
@@ -62,7 +62,7 @@
                                     <li>
                                         <div class="section">
                                             <h4 class="nm">
-                                              <img src="/assets/icons/pagequality1x64.png" alt="" class="img-responsive center_block">
+                                              <i class="flaticon-medal3 icon-gold img-responsive center_block icon-font-35"></i>
                                             </h4>
                                             <h4 class="nm mt5 badges_count"><%= @badges_count %></h4>
                                         </div>
@@ -70,8 +70,22 @@
                                     <li>
                                         <div class="section">
                                             <h4 class="nm">
-                                              <img src="/assets/icons/seocopywriting1x64.png" alt="" class="img-responsive center_block"></h4>
+                                              <i class="flaticon-quill1 icon-blue img-responsive center_block icon-font-35"></i></h4>
                                             <h4 class="nm mt5 testimonials_count"><%= @testimonials.blank? ? 0 : @testimonials.count %></h4>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="section">
+                                            <h4 class="nm">
+                                              <i class="ico-map-marker icon-red-lite img-responsive center_block icon-font-35"></i></h4>
+                                            <h4 class="nm mt5"><%= @locations.nil? ? 0 : @locations.count %></h4>
+                                        </div>
+                                    </li>                                    
+                                    <li>
+                                        <div class="section">
+                                            <h4 class="nm">
+                                              <i class="ico-star icon-ubuntu img-responsive center_block icon-font-35"></i></h4>
+                                            <h4 class="nm mt5"><%= @interests_count.nil? ? 0 : @interests_count %></h4>
                                         </div>
                                     </li>
                                 </ul>
@@ -173,18 +187,6 @@
                                   <!-- panel heading/header -->
                                   <div class="panel-heading">
                                       <h3 class="panel-title"><i class="ico-star"></i> Interests</h3>
-                                      <!-- panel toolbar -->
-                                      <div class="panel-toolbar text-right">
-                                          <!-- option -->
-                                              
-                                          <div class="option">
-                                                <a  href="#interest_modal" role="button" data-toggle="modal" class="btn demo a-color-inherit" id="address_link">
-                                                  <i class="ico-plus-circle"></i>
-                                                </a>              
-                                          </div>
-                                          <!--/ option -->
-                                      </div>
-                                      <!--/ panel toolbar -->
                                   </div>
                                   <!--/ panel heading/header -->
                                   
@@ -287,7 +289,7 @@
                                       <% @visit_rels = @user.rels(dir: :incoming, type: "visits")  %>
                                       <% if @visit_rels.count > 0 %>
                                         <% @visit_rels.each do |rel| %>
-                                          <a href="/users/<%= rel.from_node.uuid %>/" class="media">
+                                          <a href="/users/<%= rel.from_node.uuid %>/" class="media  main_container_load_indicator_show ">
                                               <span class="media-object pull-left">
                                                   <img src='<%= cloudinary_url( rel.from_node.default_pic, :width => 50, :height => 50, :crop => :fill, :gravity => :faces) %>' class="img-circle" alt="">
                                               </span>
@@ -422,4 +424,5 @@ $(".badge-btn").click(function(){
   $("#new_badgeType").val($(this).text());
   $("#badge_submit_div").removeClass('dis-none-imp');
 });
+
 </script>

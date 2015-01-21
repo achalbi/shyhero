@@ -3279,6 +3279,18 @@ a.thumbnail.active {
   color: #888888;
   text-decoration: none;
 }
+.panel > .panel-ribbon-bottom-right {
+  position: absolute;
+  z-index: 10;
+  overflow: hidden;
+  bottom: -1px;
+  right: -1px;
+  width: 40px;
+  height: 40px;
+  border-bottom-right-radius: 3px;
+  color: #888888;
+  text-decoration: none;
+}
 .panel > .panel-ribbon.pull-right {
   left: auto;
   right: -1px;
