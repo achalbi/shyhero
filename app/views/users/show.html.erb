@@ -22,6 +22,9 @@
                             <div class="thumbnail">
                                 <!-- media -->
                                 <div class="media">
+                                  <div class="meta bottom pb5 pr10">
+                                      <p class="pull-right nm font-15 icon-silver"><i class="ico-camera10"></i> <span class="semibold font-18"><%= @user.pictures.where(visible: true).nil? ? 0 : @user.pictures.where(visible: true).count %></span></p>
+                                  </div>
                                   <div class="media default_pic" id="default_pic">
                                     <img src='<%= cloudinary_url( @user.default_pic, :width => 340, :height => 400, :crop => :fill, :gravity => :face) %>' width='100%'>
                                   </div>
