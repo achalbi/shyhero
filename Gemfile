@@ -92,6 +92,9 @@ group :production do
   gem 'rails_12factor'
 end
 
+gem 'heroku_rails_deflate', :group => :production
+#gem 'heroku-deflater', :group => :production
+
 group :development do
   gem 'spring'
   gem 'os'
