@@ -65,6 +65,7 @@
   background-image: url("/assets/logo/logo-text-1.png");
   background-repeat: no-repeat;
   background-size: 140px 40px;
+  margin-top: 4px;
 }
 .logo-text + .logo-figure {
   margin-left: -13px;

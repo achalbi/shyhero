@@ -1660,7 +1660,8 @@ html body {
   transition: -webkit-transform 0.2s ease,-moz-transform 0.2s ease,-o-transform 0.2s ease,transform 0.2s ease;
 }
 #header.navbar.navbar-fixed-top ~ #main {
-  padding-top: 100px;
+  padding-top: 34px;
+ // padding-top: 100px;
 }
 /* Push right */
 .csstransforms3d.sidebar-open-ltr #main {

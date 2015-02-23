@@ -4,13 +4,13 @@
  * @author : Achal BI
  */
  
-.form-control-btn{
-	position: absolute;
-	top: 0px;
-	right: 40px;
-}
+ .form-control-btn{
+   position: absolute;
+   top: 0px;
+   right: 40px;
+ }
 
-.a-color-inherit > a{
+ .a-color-inherit > a{
   color: inherit;
   text-decoration: none;
 }
@@ -142,10 +142,10 @@
 }
 
 .mfp-with-zoom.mfp-ready .mfp-container {
-    opacity: 1;
+  opacity: 1;
 }
 .mfp-with-zoom.mfp-ready.mfp-bg {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 .mfp-with-zoom.mfp-removing .mfp-container, 
@@ -192,19 +192,19 @@
   Customized - Sidebar
   */
 
-.sidebar .topmenu {
-  background-color: #ecf0f1!important;
-}
+  .sidebar .topmenu {
+    background-color: #ecf0f1!important;
+  }
 
-.sidebar {
-  background-color: #ecf0f1!important;
-}
+  .sidebar {
+    background-color: #ecf0f1!important;
+  }
 
-.sidebar .topmenu li.active{
+  .sidebar .topmenu li.active{
  /* background-color: #ecf0f1!important; 
   background-color: tomato!important;
   background-color: #dd172f!important;
- */
+  */
   background-color: #f17a49!important;
 }
 
@@ -220,7 +220,7 @@
 
 .sidebar .topmenu li.active a {
  /* color: #444!important; */
-  color: white!important; 
+ color: white!important; 
 }
 
 .sidebar .topmenu li a {
@@ -250,10 +250,10 @@
 }
 
 .sidebar-minimized .sidebar .topmenu.topmenu-responsive > li > a {
-padding-top: 5px!important;
-padding-bottom: 2px!important;
-padding-left: 15px!important;
-padding-right: 15px!important;
+  padding-top: 5px!important;
+  padding-bottom: 2px!important;
+  padding-left: 15px!important;
+  padding-right: 15px!important;
 }
 
 .topmenu {
@@ -281,9 +281,9 @@ padding-right: 15px!important;
   */
   background-color: #f17a49!important;
 }
-  .frontend #header.navbar .navbar-header {
-    background-color: transparent!important;
-  }
+.frontend #header.navbar .navbar-header {
+  background-color: transparent!important;
+}
 
 .navbar-main > a{
   background-color: #f17a49!important;
@@ -337,3 +337,31 @@ padding-right: 15px!important;
   background-image: url("/assets/loading/spinner.gif");
   background-repeat: no-repeat;
 }
+
+@media(max-width : 480px){
+  .li-search{
+    float: left;
+    right: 0;
+    top: 0;
+    position: absolute!important;
+    > a {
+        background: none!important;
+        color: #eeeeee!important;
+      &:hover{
+        color: white!important;
+      }
+    }
+  }
+  .hide-sm{
+    display: none!important;
+  }
+
+  .bw0-sm{
+    border-width: 0px!important;
+  }
+
+  .plr0-sm{
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+} 
