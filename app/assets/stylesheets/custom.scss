@@ -3,6 +3,8 @@
  * @note : Avoid altering this file. Any enhancement should be done in this file
  * @author : Achal BI
  */
+
+ $primary-color: #dd172f;
  
  .form-control-btn{
    position: absolute;
@@ -204,8 +206,9 @@
  /* background-color: #ecf0f1!important; 
   background-color: tomato!important;
   background-color: #dd172f!important;
+  background-color: #f17a49 !important;
   */
-  background-color: #f17a49!important;
+  background-color: $primary-color !important;
 }
 
 .sidebar .topmenu li.active a > .figure > [class^="ico-"],
@@ -278,30 +281,46 @@
   background-color: #dd172f!important;
   background-color: #A94442!important;
   background-color: #ffd66a!important;
-  */
   background-color: #f17a49!important;
+  */
+  background-color: $primary-color !important;
 }
 .frontend #header.navbar .navbar-header {
   background-color: transparent!important;
 }
 
 .navbar-main > a{
+  /*
+  background-color: #dd172f!important;
+  background-color: #A94442!important;
+  background-color: #ffd66a!important;
   background-color: #f17a49!important;
+  */
+  background-color: $primary-color !important;
 }
 
 .totop{
+  /*
+  background-color: #dd172f!important;
+  background-color: #A94442!important;
+  background-color: #ffd66a!important;
   background-color: #f17a49!important;
+  */
+  background-color: $primary-color !important;
 }
 
 .btn-ubuntu-outline{
-  color: #f17a49!important;
-  border-color: #f17a49!important;
+  /*color: #f17a49!important;
+  border-color: #f17a49!important;*/
+
+  color: $primary-color !important;
+  border-color: $primary-color !important;
 }
 
 .btn-ubuntu{
   color: white!important;
-  border-color: #f17a49!important;
-  background-color: #f17a49!important;
+  border-color: $primary-color !important;
+  background-color: $primary-color !important;
 }
 .br-nobg:before {
   background: none;
