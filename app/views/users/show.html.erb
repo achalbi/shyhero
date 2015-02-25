@@ -280,6 +280,37 @@
 
                             <hr class="hidden-sm hidden-xs"><!--horizontal line -->
 
+                            <!-- START like lists -->
+                            <div class="panel-toolbar-wrapper">
+                                <div class="panel-toolbar">
+                                    <h5 class="semibold nm icon-black-lite"><i class="ico-users3 mr5"></i>Followers</h5>
+                                </div>
+                            </div>
+                            <div class="panel-body pt0">
+                                <div class="media-list media-list-contact">
+                                      <% @visit_rels = @user.rels(dir: :incoming, type: "likes")  %>
+                                      <% if @visit_rels.count > 0 %>
+                                        <% @visit_rels.each do |rel| %>
+                                          <a href="/users/<%= rel.from_node.uuid %>/" class="media  main_container_load_indicator_show ">
+                                              <span class="media-object pull-left">
+                                                  <img src='<%= cloudinary_url( rel.from_node.default_pic, :width => 50, :height => 50, :crop => :fill, :gravity => :faces) %>' class="img-circle" alt="">
+                                              </span>
+                                              <span class="media-body">
+                                                  <span class="media-heading icon-grey"><%= rel.from_node.name %></span>
+                                                  <span class="media-meta"><%= timeago_tag rel.updated_at, :nojs => true, :limit => 10.days.ago %></span>
+                                              </span>
+                                          </a>
+                                        <% end %>
+                                      <% else %>
+                                        <p  class="nm">None</p>
+                                      <% end %>
+                                </div>
+                                <p class="nm dis-none-imp"><a href="javascript:void(0);" class="semibold">View all</a></p>
+                            </div>
+                            <!--/ END like lists -->
+
+                            <hr class="hidden-sm hidden-xs"><!--horizontal line -->
+
                             <% end %> 
                             <!-- START Friend lists -->
                             <div class="panel-toolbar-wrapper">
