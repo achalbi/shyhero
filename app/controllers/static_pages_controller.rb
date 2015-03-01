@@ -5,6 +5,7 @@ class StaticPagesController < ApplicationController
   	unless @user.nil?
       session['user_id'] = @user.uuid
       session['user_gender'] = @user.gender
+=begin
   		@pictures = @user.pictures.nil? ? []: @user.pictures.where(visible: true)
   		@testimonials = @user.testimonials
       @latitude = nil #'12.9715987'
@@ -14,6 +15,8 @@ class StaticPagesController < ApplicationController
       @req_badges = Neo4j::Session.query.match("(any_user)-[:giveBadges]->(myBadge)<-[:getBadges]-(user { uuid: '#{@user.uuid}' })").where("   myBadge.status = false  ").pluck(:myBadge)
       @badges = Neo4j::Session.query.match("(me { uuid: '#{@user.uuid}' })-[:getBadges]->(myBadge)").where("myBadge.status = true").pluck('DISTINCT myBadge.badgeType, count(myBadge.badgeType)')
       @locations = @user.places
+=end
+
   	end
   end
 

@@ -97,6 +97,9 @@ before_filter :signed_in_user, except: :login
     session['user_name'] = @user.name
     session['user_id'] = params[:id]
     session['user_gender'] = @user.gender
+    if @user.uuid == current_user.uuid
+      return
+    end
     unless @user.uuid == current_user.uuid
       unless  current_user.rels(dir: :outgoing, type: :visits, between: @user).blank?
         rel = current_user.rels(dir: :outgoing, type: :visits, between: @user)

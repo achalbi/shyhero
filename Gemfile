@@ -36,7 +36,7 @@ gem 'jbuilder', '~> 2.0'
 gem "will_paginate"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data'
+ gem 'tzinfo-data'
 
 gem 'omniauth-facebook'
 #gem 'omniauth-identity'
