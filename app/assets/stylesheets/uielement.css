@@ -4103,6 +4103,12 @@ hr {
 .jumbotron.jumbotron-bg7 {
   background: url("/assets/stellar/soft_love.jpg") no-repeat center top fixed;
 }
+.jumbotron.jumbotron-bg8 {
+  background: url("/assets/stellar/soft-love3.jpg") no-repeat center top fixed;
+}
+.jumbotron.jumbotron-bg9 {
+  background: url("/assets/stellar/soft-love1.jpg") no-repeat center top fixed;
+}
 .jumbotron h1,
 .jumbotron .h1 {
   font-size: 28px;
@@ -7584,7 +7590,8 @@ a.list-group-item:focus {
   bottom: 0px;
 }
 .pattern.overlay {
-  background-color: rgba(0, 0, 0, 0.7);
+ /* background-color: rgba(0, 0, 0, 0.7); */
+  background-color: rgba(0, 0, 0, 0.6);
 }
 .pattern.overlay.overlay-accent {
   background-color: rgba(0, 182, 173, 0.8);
